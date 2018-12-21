@@ -7,6 +7,7 @@ using Hey;
 using Hey.Messaging;
 using Hey.Protocol;
 using Hey.Tcp;
+using Hey.Config;
 
 namespace CommandLine.Server
 {
@@ -14,15 +15,13 @@ namespace CommandLine.Server
     {
         static void Main(string[] args)
         {
-            var builder = new HostBuilder()
-            .UsePort(5500) //bind at 5500
-            .ConfigureServices(services =>
+            var builder = new HostBuilder()          
+            .ConfigureServices((context,services) =>
             {
                 //协议
                 services.AddSingleton<IProtocol<CommandLineMessage>, CommandLineProtocol>();
                 //挂载服务逻辑
                 services.AddSingleton<ISocketService<CommandLineMessage>, MyService>();
-
               
                 //添加挂载的宿主服务
                 services.AddTcpServer<CommandLineMessage>();

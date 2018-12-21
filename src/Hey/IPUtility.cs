@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Text;
 
@@ -97,13 +98,11 @@ namespace Hey
         /// <returns></returns>
         static public IPAddress GetLocalIntranetIP()
         {
-            var list = Dns.GetHostEntry(Dns.GetHostName()).AddressList;
-            foreach (var child in list)
-            {
-                if (IsIntranet(child)) return child;
-            }
-
-            return null;
+           return System.Net.NetworkInformation.NetworkInterface.GetAllNetworkInterfaces()
+            .Select(p => p.GetIPProperties())
+            .SelectMany(p => p.UnicastAddresses)
+            .Where(p => p.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork && !System.Net.IPAddress.IsLoopback(p.Address))
+            .FirstOrDefault()?.Address;
         }
         /// <summary>
         /// 获取本机内网IP列表
@@ -111,11 +110,15 @@ namespace Hey
         /// <returns></returns>
         static public List<IPAddress> GetLocalIntranetIPList()
         {
-            var list = Dns.GetHostEntry(Dns.GetHostName()).AddressList;
+            var infList =System.Net.NetworkInformation.NetworkInterface.GetAllNetworkInterfaces()
+            .Select(p => p.GetIPProperties())
+            .SelectMany(p => p.UnicastAddresses)
+            .Where(p => p.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork && !System.Net.IPAddress.IsLoopback(p.Address));
+                     
             var result = new List<IPAddress>();
-            foreach (var child in list)
+            foreach (var child in infList)
             {
-                if (IsIntranet(child)) result.Add(child);
+                result.Add(child.Address);
             }
 
             return result;

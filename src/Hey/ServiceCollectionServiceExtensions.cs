@@ -1,4 +1,7 @@
-﻿using Hey.Hosting;
+﻿using Hey.Config;
+using Hey.Hosting;
+using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
@@ -9,7 +12,8 @@ namespace Hey
 {
     public static class ServiceCollectionServiceExtensions
     {       
-        public static IServiceCollection AddTcpServer<TMessage>(this IServiceCollection services) where TMessage:Messaging.IMessage
+        public static IServiceCollection AddTcpServer<TMessage>(this IServiceCollection services) 
+            where TMessage:Messaging.IMessage
         {
             return services
                 .AddSingleton<IServerBootstrap,Tcp.TcpServerBootstrap<TMessage>>()
