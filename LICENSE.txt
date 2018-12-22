@@ -1,4 +1,4 @@
-Copyright (c) Microsoft Corporation
+Copyright (c) Xuanye Wong 2018
 All rights reserved. 
 
 MIT License
