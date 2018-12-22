@@ -112,7 +112,6 @@ namespace Hey.Tcp
         }
         #endregion
 
-
         #region Events
         public virtual void OnConnected(ISocketContext<TMessage> context)
         {

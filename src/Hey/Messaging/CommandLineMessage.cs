@@ -9,12 +9,12 @@ namespace Hey.Messaging
         /// <summary>
         /// get the current command name.
         /// </summary>
-        public string Command { get; private set; }
+        public string Command { get; }
 
         /// <summary>
         /// Get Parameters
         /// </summary>
-        public string[] Parameters { get; private set; }
+        public string[] Parameters { get; }
 
         public int Length {
             get

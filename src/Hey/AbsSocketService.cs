@@ -16,7 +16,7 @@ namespace Hey
 
         public virtual void OnException(ISocketContext<TMessage> context, Exception ex)
         {
-            throw new NotImplementedException();
+           
         }
 
         public abstract void OnRecieve(ISocketContext<TMessage> context, TMessage msg);

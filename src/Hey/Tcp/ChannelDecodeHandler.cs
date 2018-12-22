@@ -7,6 +7,10 @@ using System.Text;
 
 namespace Hey.Tcp
 {
+    /// <summary>
+    /// 消息解码器
+    /// </summary>
+    /// <typeparam name="TMessage"></typeparam>
     public class ChannelDecodeHandler<TMessage> : DotNetty.Codecs.ByteToMessageDecoder where TMessage : Messaging.IMessage
     {
         private readonly Protocol.IProtocol<TMessage> _protocol;

@@ -9,6 +9,10 @@ using System.Threading.Tasks;
 
 namespace Hey
 {
+    /// <summary>
+    /// 链接上下文的默认实现
+    /// </summary>
+    /// <typeparam name="TMessage"></typeparam>
     public class SocketContext<TMessage> : ISocketContext<TMessage> where TMessage : Messaging.IMessage
     {
         private readonly IChannel _channel;

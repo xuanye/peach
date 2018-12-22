@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace Hey
 {
-   
+   /// <summary>
+   /// 服务的启动接口
+   /// </summary>
     public interface IServerBootstrap
     {
         /// <summary>

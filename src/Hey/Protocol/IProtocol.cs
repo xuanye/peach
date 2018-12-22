@@ -5,7 +5,7 @@ using System.Text;
 namespace Hey.Protocol
 {
     /// <summary>
-    /// TODO:Completed
+    /// 协议接口
     /// </summary>
     /// <typeparam name="TMessage"></typeparam>
     public interface IProtocol<TMessage>

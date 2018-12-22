@@ -6,7 +6,7 @@ using Hey.Messaging;
 
 namespace Hey
 {
-    public interface ISocketClient<TMessage> where TMessage:Messaging.IMessage
+    public interface ISocketClient<TMessage> where TMessage:IMessage
     {
 
         void OnRecieve(ISocketContext<TMessage> context, TMessage msg);

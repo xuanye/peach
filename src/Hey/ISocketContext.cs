@@ -29,15 +29,21 @@ namespace Hey
         /// </summary>
         IPEndPoint RemoteEndPoint { get; }
 
+        /// <summary>
+        /// 内部Netty的Channel信息
+        /// </summary>
         IChannel Channel { get; }
 
 
+        /// <summary>
+        /// 是否激活和活跃
+        /// </summary>
         bool Active { get; }
 
         /// <summary>
         /// SendMessage
         /// </summary>
-        /// <param name="message"></param>
+        /// <param name="message">消息内容</param>
         /// <returns></returns>
         Task SendAsync(TMessage message);
     }

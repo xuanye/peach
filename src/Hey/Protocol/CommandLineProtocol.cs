@@ -9,7 +9,7 @@ namespace Hey.Protocol
 {
     public class CommandLineProtocol : IProtocol<CommandLineMessage>
     {
-        public const string SPLITER = " ";
+        const string SPLITER = " ";
         public ProtocolMeta GetProtocolMeta()
         {
             return null; //Simple Protocol
