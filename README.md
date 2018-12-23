@@ -161,7 +161,7 @@ static void Main(string[] args)
 }
 ```
 
-### 使用刚刚实现的`MyCommandClient`
+### 使用刚刚实现的`MyCommandClient`
 
 详见注释，看看吧
 
