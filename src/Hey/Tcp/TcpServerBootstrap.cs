@@ -11,6 +11,7 @@ using System;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
+using Hey.Infrastructure;
 
 namespace Hey.Tcp
 {
@@ -122,6 +123,7 @@ namespace Hey.Tcp
             else
             {
                 var localPoint = IPUtility.GetLocalIntranetIP();
+                this._logger.LogInformation("TcpServerHost bind at {0}",localPoint);
                 _channel = await bootstrap.BindAsync(localPoint, this._options.Port);
             }
             this._logger.LogInformation("TcpServerHost bind at {0}", _channel.LocalAddress);

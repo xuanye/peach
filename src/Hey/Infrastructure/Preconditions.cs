@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Hey
+namespace Hey.Infrastructure
 {
     /// <summary>
     /// Utility methods to simplify checking preconditions in the code.

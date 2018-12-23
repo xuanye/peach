@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 
-namespace Hey
+namespace Hey.Infrastructure
 {
     /// <summary>
     /// ip utility
@@ -101,8 +101,11 @@ namespace Hey
            return System.Net.NetworkInformation.NetworkInterface.GetAllNetworkInterfaces()
             .Select(p => p.GetIPProperties())
             .SelectMany(p => p.UnicastAddresses)
-            .Where(p => p.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork && !System.Net.IPAddress.IsLoopback(p.Address))
-            .FirstOrDefault()?.Address;
+            .Where(p => 
+                p.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork 
+                && !System.Net.IPAddress.IsLoopback(p.Address)
+                && IsIntranet(p.Address)
+            ).FirstOrDefault()?.Address;
         }
         /// <summary>
         /// 获取本机内网IP列表
@@ -113,7 +116,11 @@ namespace Hey
             var infList =System.Net.NetworkInformation.NetworkInterface.GetAllNetworkInterfaces()
             .Select(p => p.GetIPProperties())
             .SelectMany(p => p.UnicastAddresses)
-            .Where(p => p.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork && !System.Net.IPAddress.IsLoopback(p.Address));
+            .Where(p => 
+                p.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork 
+                && !System.Net.IPAddress.IsLoopback(p.Address)
+                && IsIntranet(p.Address)            
+            );
                      
             var result = new List<IPAddress>();
             foreach (var child in infList)

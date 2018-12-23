@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Threading.Tasks;
+using Hey.Infrastructure;
 
 namespace CommandLine.Client
 {
@@ -14,7 +15,7 @@ namespace CommandLine.Client
             Task.Run(async () =>
             {
                 //连接服务器，可以链接多个哦
-                var socketContext = await client.ConnectAsync(new IPEndPoint(Hey.IPUtility.GetLocalIntranetIP(), 5566));
+                var socketContext = await client.ConnectAsync(new IPEndPoint(IPUtility.GetLocalIntranetIP(), 5566));
 
                 //发送消息
                 var initCmd = new Hey.Messaging.CommandLineMessage("init");
@@ -27,7 +28,7 @@ namespace CommandLine.Client
                 Console.WriteLine("Press any key to exit!");
                 Console.ReadKey();
                 //关闭链接
-                await client.ShutdownGracefullyAsync(3000, 3000);
+                await client.ShutdownGracefullyAsync(2000, 2000);
 
             }).Wait();
          
