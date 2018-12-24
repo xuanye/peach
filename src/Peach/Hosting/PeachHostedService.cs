@@ -5,10 +5,10 @@ using Peach.Infrastructure;
 
 namespace Peach.Hosting
 {
-    public class HeyHostedService : IHostedService 
+    public class PeachHostedService : IHostedService 
     {
         private readonly IServerBootstrap _server;
-        public HeyHostedService(IServerBootstrap server)
+        public PeachHostedService(IServerBootstrap server)
         {
             Preconditions.CheckNotNull(server, nameof(server));
             this._server = server;

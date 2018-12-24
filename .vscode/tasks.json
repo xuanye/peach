@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/Hey.sln"
+                "${workspaceFolder}/Peach.sln"
             ],
             "problemMatcher": "$msCompile",
             "group": {

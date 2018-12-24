@@ -17,7 +17,7 @@ namespace Peach
         {
             return services
                 .AddSingleton<IServerBootstrap,Tcp.TcpServerBootstrap<TMessage>>()
-                .AddScoped<IHostedService, HeyHostedService>();
+                .AddScoped<IHostedService, PeachHostedService>();
         }
     }
 }

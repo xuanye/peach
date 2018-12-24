@@ -2,12 +2,17 @@
 using DotNetty.Transport.Channels;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
+using System.Threading.Tasks;
+using Peach.Diagnostics;
 
 namespace Peach.Tcp
 {   
     public class TcpClientChannelHandlerAdapter<TMessage> : SimpleChannelInboundHandler<TMessage> where TMessage : Messaging.IMessage
     {
+        private static DiagnosticListener listener = new DiagnosticListener(Diagnostics.DiagnosticListenerExtensions.DiagnosticListenerName);
+
         private readonly ISocketClient<TMessage> _client;
         private readonly Protocol.IProtocol<TMessage> _protocol;
 
@@ -21,7 +26,7 @@ namespace Peach.Tcp
         {
             this._client.OnConnected(new SocketContext<TMessage>(context.Channel, this._protocol));
             base.ChannelActive(context);
-        }
+        }      
 
         /// <summary>
         /// 断开连接
@@ -35,13 +40,16 @@ namespace Peach.Tcp
 
         protected override void ChannelRead0(IChannelHandlerContext context, TMessage msg)
         {
+            listener.ClientRecieve(msg);
             this._client.OnRecieve(new SocketContext<TMessage>(context.Channel, this._protocol), msg);
+            listener.ClientRecieveComplete(msg);
             //this._bootstrap.ChannelRead(ctx, msg);
         }
 
         public override void ExceptionCaught(IChannelHandlerContext context, Exception ex)
         {
             this._client.OnException(new SocketContext<TMessage>(context.Channel, this._protocol), ex);
+            listener.ClientException(ex);
             context.CloseAsync(); //关闭连接
         }
 
