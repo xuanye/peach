@@ -1,13 +1,13 @@
 ﻿using Microsoft.Extensions.Hosting;
 using System;
-using Hey.Hosting;
+using Peach.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Hey;
-using Hey.Messaging;
-using Hey.Protocol;
-using Hey.Tcp;
-using Hey.Config;
+using Peach;
+using Peach.Messaging;
+using Peach.Protocol;
+using Peach.Tcp;
+using Peach.Config;
 
 namespace CommandLine.Server
 {

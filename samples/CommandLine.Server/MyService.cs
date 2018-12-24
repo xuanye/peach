@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using Hey;
-using Hey.Messaging;
+using Peach;
+using Peach.Messaging;
 using Microsoft.Extensions.Logging;
 
 namespace CommandLine.Server
 {
-    public class MyService : Hey.AbsSocketService<Hey.Messaging.CommandLineMessage>
+    public class MyService : Peach.AbsSocketService<Peach.Messaging.CommandLineMessage>
     {
         private readonly ILogger<MyService> _logger;
 

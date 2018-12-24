@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Threading.Tasks;
-using Hey.Infrastructure;
+using Peach.Infrastructure;
 
 namespace CommandLine.Client
 {
@@ -10,7 +10,7 @@ namespace CommandLine.Client
         static void Main(string[] args)
         {
             //实例化Client 需要传入使用的协议
-            MyCommandClient client = new MyCommandClient(new Hey.Protocol.CommandLineProtocol());
+            MyCommandClient client = new MyCommandClient(new Peach.Protocol.CommandLineProtocol());
 
             Task.Run(async () =>
             {
@@ -18,10 +18,10 @@ namespace CommandLine.Client
                 var socketContext = await client.ConnectAsync(new IPEndPoint(IPUtility.GetLocalIntranetIP(), 5566));
 
                 //发送消息
-                var initCmd = new Hey.Messaging.CommandLineMessage("init");
+                var initCmd = new Peach.Messaging.CommandLineMessage("init");
                 await socketContext.SendAsync(initCmd);
                 //发送消息2
-                var echoCmd = new Hey.Messaging.CommandLineMessage("echo", "hello");
+                var echoCmd = new Peach.Messaging.CommandLineMessage("echo", "hello");
                 await socketContext.SendAsync(echoCmd);
 
                
