@@ -66,7 +66,8 @@ Task("Build")
       DotNetCoreBuild("./Peach.sln",
          new DotNetCoreBuildSettings
          {
-            Configuration = configuration          
+            Configuration = configuration,
+            ArgumentCustomization = args => args.Append($"/p:Version={packageVersion};AssemblyVersion={buildVersion};FileVersion={buildVersion}"),
          }
       );    
    });
@@ -99,11 +100,10 @@ Task("Package")
             projName,
             new DotNetCorePackSettings()
             {
-                Configuration = configuration,
-                OutputDirectory = artifactsDirectory,
-                VersionSuffix = buildVersion,
-                NoBuild = true,
-                ArgumentCustomization = args => args.Append($"/p:PackageVersion={packageVersion}"),
+               Configuration = configuration,
+               OutputDirectory = artifactsDirectory,          
+               NoBuild = true,
+               ArgumentCustomization = args => args.Append($"/p:PackageVersion={packageVersion}"),
             });
     });
 
@@ -130,7 +130,7 @@ Task("Publish")
 // TASK TARGETS
 //////////////////////////////////////////////////////////////////////
 Task("Default")
-   .IsDependentOn("UnitTests");
+   .IsDependentOn("Package");
 
 Task("Nuget")
    .IsDependentOn("Publish");

@@ -6,19 +6,15 @@ using Peach.Messaging;
 
 namespace Peach
 {
-    public interface ISocketClient<TMessage> where TMessage:IMessage
+    public interface ISocketClient<TMessage> where TMessage : IMessage
     {
-
         void OnRecieve(ISocketContext<TMessage> context, TMessage msg);
-
 
         /// <summary>
         /// 当建立socket连接时，会调用此方法
         /// </summary>
         /// <param name="context"></param>
         void OnConnected(ISocketContext<TMessage> context);
-
-
 
         /// <summary>
         /// 当socket连接断开时，会调用此方法
