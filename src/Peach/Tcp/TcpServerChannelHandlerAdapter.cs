@@ -38,9 +38,9 @@ namespace Peach.Tcp
 
         protected override void ChannelRead0(IChannelHandlerContext context, TMessage msg)
         {
-            listener.ServiceRecieve(msg);
-            _service.OnRecieve(new SocketContext<TMessage>(context.Channel, this._protocol), msg);
-            listener.ServiceRecieveCompleted(msg);
+            listener.ServiceReceive(msg);
+            _service.OnReceive(new SocketContext<TMessage>(context.Channel, this._protocol), msg);
+            listener.ServiceReceiveCompleted(msg);
         }
 
         public override void ChannelReadComplete(IChannelHandlerContext contex)

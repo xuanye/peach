@@ -1,4 +1,4 @@
-﻿using DotNetty.Codecs;
+using DotNetty.Codecs;
 using DotNetty.Handlers.Logging;
 using DotNetty.Handlers.Timeout;
 using DotNetty.Transport.Bootstrapping;
@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Peach.EventArgs;
 
 namespace Peach.Tcp
 {
@@ -29,6 +30,7 @@ namespace Peach.Tcp
         private readonly ConcurrentDictionary<EndPoint, SocketContext<TMessage>> channels 
             = new ConcurrentDictionary<EndPoint, SocketContext<TMessage>>();
 
+       
         public TcpClient(IOptions<TcpClientOption> clientOption,IProtocol<TMessage> protocol)
             :this(clientOption.Value, protocol)
         {
@@ -113,31 +115,38 @@ namespace Peach.Tcp
         #endregion
 
         #region Events
-        public virtual void OnConnected(ISocketContext<TMessage> context)
-        {
-           
-        }
-
-        public virtual void OnDisconnected(ISocketContext<TMessage> context)
-        {
-           
-        }
-
-        public virtual void OnException(ISocketContext<TMessage> context, Exception ex)
-        {
-           
-        }
-
-        public virtual void OnRecieve(ISocketContext<TMessage> context, TMessage msg)
-        {
-          
-        }
-
-        public virtual void OnIdleState(SocketContext<TMessage> context, IdleStateEvent eventState)
-        {
-
-        }
+        public event EventHandler<MessageReceivedEventArgs<TMessage>> OnReceived;
+        public event EventHandler<ErrorEventArgs<TMessage>> OnError;
+        public event EventHandler<ConnectedEventArgs<TMessage>> OnConnected;
+        public event EventHandler<DisconnectedEventArgs<TMessage>> OnDisconnected;
+        public event EventHandler<IdleStateEventArgs<TMessage>> OnIdleState;
         #endregion
+
+
+        public void RaiseConnected(ISocketContext<TMessage> context)
+        {
+            OnConnected?.Invoke(this, new ConnectedEventArgs<TMessage>(context));
+        }
+
+        public void RaiseDisconnected(ISocketContext<TMessage> context)
+        {
+            OnDisconnected?.Invoke(this, new DisconnectedEventArgs<TMessage>(context));
+        }
+
+        public void RaiseError(ISocketContext<TMessage> context, Exception ex)
+        {
+            OnError?.Invoke(this, new ErrorEventArgs<TMessage>(context, ex));
+        }
+
+        public void RaiseReceive(ISocketContext<TMessage> context, TMessage msg)
+        {
+            OnReceived?.Invoke(this, new MessageReceivedEventArgs<TMessage>(context, msg));
+        }
+
+        public void RaiseIdleState(SocketContext<TMessage> context, IdleStateEvent eventState)
+        {
+            OnIdleState?.Invoke(this, new IdleStateEventArgs<TMessage>(context));
+        }
 
         #region Methods
 
@@ -173,7 +182,12 @@ namespace Peach.Tcp
             channels.Clear();
             await _group.ShutdownGracefullyAsync(TimeSpan.FromMilliseconds(quietPeriodMS), TimeSpan.FromMilliseconds(shutdownTimeoutMS));
         }
-              
+
+        public void Receive(ISocketContext<TMessage> context, TMessage msg)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
     }
 }

@@ -1,4 +1,4 @@
-﻿using DotNetty.Codecs;
+using DotNetty.Codecs;
 using DotNetty.Handlers.Logging;
 using DotNetty.Handlers.Timeout;
 using DotNetty.Transport.Bootstrapping;
@@ -30,21 +30,29 @@ namespace Peach.Tcp
         private MultithreadEventLoopGroup _workerGroup;
 
         public TcpServerBootstrap(
-            IOptions<Config.TcpHostOption> hostOption,
-            ISocketService<TMessage> socketService,
-            Protocol.IProtocol<TMessage> protocol,
-            ILoggerFactory loggerFactory
+                ISocketService<TMessage> socketService,
+                Protocol.IProtocol<TMessage> protocol,
+                ILoggerFactory loggerFactory,
+                IOptions<Config.TcpHostOption> hostOption = null
             )
         {
-            Preconditions.CheckNotNull(hostOption.Value, nameof(hostOption));
+            
             Preconditions.CheckNotNull(protocol, nameof(protocol));
             Preconditions.CheckNotNull(socketService, nameof(socketService));
 
-            this._options = hostOption.Value;
+            if(hostOption ==null || hostOption.Value == null)
+            {
+                this._options =  new Config.TcpHostOption();               
+            }
+            else
+            {
+                this._options = hostOption.Value;
+            }
             this._protocol = protocol;
             this._socketService = socketService;
             this._logger = loggerFactory.CreateLogger(this.GetType());
         }
+
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
@@ -123,7 +131,7 @@ namespace Peach.Tcp
             else
             {
                 var localPoint = IPUtility.GetLocalIntranetIP();
-                this._logger.LogInformation("TcpServerHost bind at {0}",localPoint);
+                //this._logger.LogInformation("TcpServerHost bind at {0}",localPoint);
                 _channel = await bootstrap.BindAsync(localPoint, this._options.Port);
             }
             this._logger.LogInformation("TcpServerHost bind at {0}", _channel.LocalAddress);

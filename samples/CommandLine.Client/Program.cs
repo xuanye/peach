@@ -2,6 +2,9 @@
 using System.Net;
 using System.Threading.Tasks;
 using Peach.Infrastructure;
+using Peach.Messaging;
+using Peach.Protocol;
+using Peach.Tcp;
 
 namespace CommandLine.Client
 {
@@ -10,7 +13,9 @@ namespace CommandLine.Client
         static void Main(string[] args)
         {
             //实例化Client 需要传入使用的协议
-            MyCommandClient client = new MyCommandClient(new Peach.Protocol.CommandLineProtocol());
+            TcpClient<CommandLineMessage> client = new TcpClient<CommandLineMessage>(new CommandLineProtocol());
+            client.OnReceived += Client_OnReceived;
+            client.OnConnected += Client_OnConnected;
 
             Task.Run(async () =>
             {
@@ -32,6 +37,17 @@ namespace CommandLine.Client
 
             }).Wait();
          
+        }
+
+        private static void Client_OnConnected(object sender, Peach.EventArgs.ConnectedEventArgs<CommandLineMessage> e)
+        {
+            Console.WriteLine("server is connected");
+        }
+
+        private static void Client_OnReceived(object sender, Peach.EventArgs.MessageReceivedEventArgs<CommandLineMessage> e)
+        {
+            string content = string.Format("{0} {1}", e.Message.Command, string.Join(" ", e.Message.Parameters));
+            Console.WriteLine("recieve message {0} from {1}", content, e.Context.RemoteEndPoint);
         }
     }
 }

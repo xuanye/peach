@@ -7,31 +7,31 @@ namespace Peach.Diagnostics
     public static class DiagnosticListenerExtensions
     {
         public const string DiagnosticListenerName = "PeachDiagnosticListener";
-        public const string DiagnosticServiceReieve = "Peach.Service.Recieve";
+        public const string DiagnosticServiceReieve = "Peach.Service.Receive";
         public const string DiagnosticServiceReieveCompleted = "Peach.Service.ReieveCompleted";
         public const string DiagnosticServiceException = "Peach.Service.Exception";  
-        public const string DiagnosticClientRecieve = "Peach.Client.Recieve";
-        public const string DiagnosticClientRecieveCompleted = "Peach.Client.RecieveCompleted";
+        public const string DiagnosticClientReceive = "Peach.Client.Receive";
+        public const string DiagnosticClientReceiveCompleted = "Peach.Client.ReceiveCompleted";
         public const string DiagnosticClientException = "Peach.Client.Exception";
 
-        public static void ServiceRecieve<TMessage>(this DiagnosticListener listener, TMessage recieveMessage) where TMessage : IMessage
+        public static void ServiceReceive<TMessage>(this DiagnosticListener listener, TMessage ReceiveMessage) where TMessage : IMessage
         {
             if (listener.IsEnabled(DiagnosticServiceReieve))
             {
                 listener.Write(DiagnosticServiceReieve, new
                 {
-                    Message = recieveMessage
+                    Message = ReceiveMessage
                 });
             }
         }
 
-        public static void ServiceRecieveCompleted<TMessage>(this DiagnosticListener listener, TMessage recieveMessage) where TMessage : IMessage
+        public static void ServiceReceiveCompleted<TMessage>(this DiagnosticListener listener, TMessage ReceiveMessage) where TMessage : IMessage
         {
             if (listener.IsEnabled(DiagnosticServiceReieveCompleted))
             {
                 listener.Write(DiagnosticServiceReieveCompleted, new
                 {
-                    Request = recieveMessage
+                    Request = ReceiveMessage
                 });
             }
         }
@@ -48,23 +48,23 @@ namespace Peach.Diagnostics
         }
          
 
-        public static void ClientRecieve<TMessage>(this DiagnosticListener listener, TMessage recieveMessage) where TMessage : IMessage
+        public static void ClientReceive<TMessage>(this DiagnosticListener listener, TMessage ReceiveMessage) where TMessage : IMessage
         {
-            if (listener.IsEnabled(DiagnosticClientRecieve))
+            if (listener.IsEnabled(DiagnosticClientReceive))
             {
-                listener.Write(DiagnosticClientRecieve, new
+                listener.Write(DiagnosticClientReceive, new
                 {
-                    Message = recieveMessage                   
+                    Message = ReceiveMessage                   
                 });
             }
         }
-        public static void ClientRecieveComplete<TMessage>(this DiagnosticListener listener, TMessage recieveMessage) where TMessage : IMessage
+        public static void ClientReceiveComplete<TMessage>(this DiagnosticListener listener, TMessage ReceiveMessage) where TMessage : IMessage
         {
-            if (listener.IsEnabled(DiagnosticClientRecieve))
+            if (listener.IsEnabled(DiagnosticClientReceive))
             {
-                listener.Write(DiagnosticClientRecieve, new
+                listener.Write(DiagnosticClientReceive, new
                 {
-                    Message = recieveMessage
+                    Message = ReceiveMessage
                 });
             }
         }

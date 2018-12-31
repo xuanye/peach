@@ -19,7 +19,7 @@ namespace Peach
            
         }
 
-        public abstract void OnRecieve(ISocketContext<TMessage> context, TMessage msg);
+        public abstract void OnReceive(ISocketContext<TMessage> context, TMessage msg);
        
     }
 }
