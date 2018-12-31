@@ -49,7 +49,7 @@ namespace Peach
         public IPEndPoint LocalEndPoint
         {
             get {
-                return (IPEndPoint)this._channel.LocalAddress;
+                return (IPEndPoint) this._channel.LocalAddress;
             }
            
         }
@@ -57,7 +57,7 @@ namespace Peach
         public IPEndPoint RemoteEndPoint
         {
             get {
-                return (IPEndPoint)this._channel.RemoteAddress;
+                return (IPEndPoint) this._channel.RemoteAddress;
             }
         }
         public Task SendAsync(TMessage message)

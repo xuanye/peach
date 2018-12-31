@@ -8,19 +8,22 @@ using DotNetty.Transport.Libuv;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
+using System.Net;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
+using Peach.Config;
 using Peach.Infrastructure;
 
 namespace Peach.Tcp
 {
+    /// <inheritdoc />
     /// <summary>
     /// Tcp Server
     /// </summary>
     public class TcpServerBootstrap<TMessage> : IServerBootstrap where TMessage : Messaging.IMessage
     {
-        private readonly Config.TcpHostOption _options;
+        private readonly TcpHostOption _options;
         private readonly Protocol.IProtocol<TMessage> _protocol;
         private readonly ISocketService<TMessage> _socketService;
         private readonly ILogger _logger;
@@ -33,24 +36,17 @@ namespace Peach.Tcp
                 ISocketService<TMessage> socketService,
                 Protocol.IProtocol<TMessage> protocol,
                 ILoggerFactory loggerFactory,
-                IOptions<Config.TcpHostOption> hostOption = null
+                IOptions<TcpHostOption> hostOption = null
             )
         {
-            
+
             Preconditions.CheckNotNull(protocol, nameof(protocol));
             Preconditions.CheckNotNull(socketService, nameof(socketService));
 
-            if(hostOption ==null || hostOption.Value == null)
-            {
-                this._options =  new Config.TcpHostOption();               
-            }
-            else
-            {
-                this._options = hostOption.Value;
-            }
+            this._options = hostOption?.Value ?? new TcpHostOption();
             this._protocol = protocol;
             this._socketService = socketService;
-            this._logger = loggerFactory.CreateLogger(this.GetType());
+            this._logger = loggerFactory.CreateLogger(GetType());
         }
 
 
@@ -62,7 +58,7 @@ namespace Peach.Tcp
             this._workerGroup = new MultithreadEventLoopGroup();
 
             var bootstrap = new ServerBootstrap()
-                .Group(_bossGroup, _workerGroup);
+                .Group(this._bossGroup, this._workerGroup);
 
 
             if (this._options.UseLibuv)
@@ -121,20 +117,29 @@ namespace Peach.Tcp
                     //收到消息后的解码处理Handler
                     pipeline.AddLast(new ChannelDecodeHandler<TMessage>(this._protocol));
                     //业务处理Handler，即解码成功后如何处理消息的类
-                    pipeline.AddLast(new TcpServerChannelHandlerAdapter<TMessage>(this._socketService,this._protocol));
+                    pipeline.AddLast(new TcpServerChannelHandlerAdapter<TMessage>(this._socketService, this._protocol));
                 }));
 
-            if (this._options.BindType == Config.AddressBindType.All)
+            if (this._options.BindType == AddressBindType.Any)
             {
-                _channel = await bootstrap.BindAsync(this._options.Port);
+                this._channel = await bootstrap.BindAsync(this._options.Port);
             }
-            else
+            else if (this._options.BindType == AddressBindType.InternalAddress)
             {
                 var localPoint = IPUtility.GetLocalIntranetIP();
                 //this._logger.LogInformation("TcpServerHost bind at {0}",localPoint);
-                _channel = await bootstrap.BindAsync(localPoint, this._options.Port);
+                this._channel = await bootstrap.BindAsync(localPoint, this._options.Port);
             }
-            this._logger.LogInformation("TcpServerHost bind at {0}", _channel.LocalAddress);
+            else if(this._options.BindType == AddressBindType.Loopback)
+            {
+                this._channel = await bootstrap.BindAsync(IPAddress.Loopback, this._options.Port);
+            }
+            else
+            {
+                this._channel = await bootstrap.BindAsync(IPAddress.Parse(this._options.SpecialAddress), this._options.Port);
+            }
+
+            this._logger.LogInformation("TcpServerHost bind at {0}", this._channel.LocalAddress);
         }
 
         public async Task StopAsync(CancellationToken cancellationToken)

@@ -59,7 +59,7 @@ namespace Peach.Tcp
             {
                 var eventState = evt as IdleStateEvent;
                 if (eventState != null)
-                {                  
+                {
                     this._client.RaiseIdleState(new SocketContext<TMessage>(context.Channel, this._protocol), eventState);
                 }
             }
