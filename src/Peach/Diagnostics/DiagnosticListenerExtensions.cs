@@ -48,21 +48,13 @@ namespace Peach.Diagnostics
             }
         }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 0a578e6bba7ed6a656eacab378dc475766aa31a1
         public static void ClientReceive<TMessage>(this DiagnosticListener listener, TMessage ReceiveMessage) where TMessage : IMessage
         {
             if (listener.IsEnabled(DiagnosticClientReceive))
             {
                 listener.Write(DiagnosticClientReceive, new
                 {
-<<<<<<< HEAD
-                    Message = ReceiveMessage
-=======
                     Message = ReceiveMessage                   
->>>>>>> 0a578e6bba7ed6a656eacab378dc475766aa31a1
                 });
             }
         }
