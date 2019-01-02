@@ -8,9 +8,15 @@ namespace Peach.Diagnostics
     {
 
         public const string DiagnosticListenerName = "PeachDiagnosticListener";
+<<<<<<< HEAD
         public const string DiagnosticServiceReceive = "Peach.Service.Receive";
         public const string DiagnosticServiceReceiveCompleted = "Peach.Service.ReceiveCompleted";
         public const string DiagnosticServiceException = "Peach.Service.Exception";
+=======
+        public const string DiagnosticServiceReieve = "Peach.Service.Receive";
+        public const string DiagnosticServiceReieveCompleted = "Peach.Service.ReieveCompleted";
+        public const string DiagnosticServiceException = "Peach.Service.Exception";  
+>>>>>>> 0a578e6bba7ed6a656eacab378dc475766aa31a1
         public const string DiagnosticClientReceive = "Peach.Client.Receive";
         public const string DiagnosticClientReceiveCompleted = "Peach.Client.ReceiveCompleted";
         public const string DiagnosticClientException = "Peach.Client.Exception";
@@ -48,14 +54,21 @@ namespace Peach.Diagnostics
             }
         }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 0a578e6bba7ed6a656eacab378dc475766aa31a1
         public static void ClientReceive<TMessage>(this DiagnosticListener listener, TMessage ReceiveMessage) where TMessage : IMessage
         {
             if (listener.IsEnabled(DiagnosticClientReceive))
             {
                 listener.Write(DiagnosticClientReceive, new
                 {
+<<<<<<< HEAD
                     Message = ReceiveMessage
+=======
+                    Message = ReceiveMessage                   
+>>>>>>> 0a578e6bba7ed6a656eacab378dc475766aa31a1
                 });
             }
         }

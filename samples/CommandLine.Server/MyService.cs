@@ -35,7 +35,7 @@ namespace CommandLine.Server
             base.OnException(context, ex);
         }
 
-        public override void OnRecieve(ISocketContext<CommandLineMessage> context, CommandLineMessage msg)
+        public override void OnReceive(ISocketContext<CommandLineMessage> context, CommandLineMessage msg)
         {
             string replyMessage = string.Empty;
             string replyCmd = string.Empty;
@@ -47,20 +47,20 @@ namespace CommandLine.Server
                     break;
                 case "init":
                     replyMessage = "ok";
-                    replyCmd = "init_reply";                 
-                  
+                    replyCmd = "init_reply";
+
                     break;
                 default:
-                    replyMessage = "error unknow command";                   
+                    replyMessage = "error unknow command";
                     break;
             }
-        
+
 
             Task.Run(async () =>
             {
                 await context.SendAsync(new CommandLineMessage(replyCmd, replyMessage));
             });
-
         }
+
     }
 }

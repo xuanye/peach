@@ -139,7 +139,11 @@ namespace Peach.Tcp
                 this._channel = await bootstrap.BindAsync(IPAddress.Parse(this._options.SpecialAddress), this._options.Port);
             }
 
+<<<<<<< HEAD
             this._logger.LogInformation(this._options.StartupWords, this._channel.LocalAddress);
+=======
+            this._logger.LogInformation("TcpServerHost bind at {0}", this._channel.LocalAddress);
+>>>>>>> 0a578e6bba7ed6a656eacab378dc475766aa31a1
         }
 
         public async Task StopAsync(CancellationToken cancellationToken)
