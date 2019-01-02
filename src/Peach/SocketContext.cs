@@ -20,10 +20,8 @@ namespace Peach
         public SocketContext(IChannel channel,Protocol.IProtocol<TMessage> protocol)
         {
             this._channel = channel;
-            this._protocol = protocol;
-            this.Id = channel.Id.AsLongText();
-            this.LocalEndPoint = (IPEndPoint)channel.LocalAddress;
-            this.RemoteEndPoint = (IPEndPoint)channel.RemoteAddress;
+            this._protocol = protocol;         
+           
         }
         public bool Active
         {
@@ -43,18 +41,24 @@ namespace Peach
 
         public string Id
         {
-            get;private set;           
+            get {
+                return this._channel.Id.AsLongText();
+            }      
         }
 
         public IPEndPoint LocalEndPoint
         {
-            get;
-            private set;
+            get {
+                return (IPEndPoint) this._channel.LocalAddress;
+            }
+           
         }
 
         public IPEndPoint RemoteEndPoint
         {
-            get;private set;
+            get {
+                return (IPEndPoint) this._channel.RemoteAddress;
+            }
         }
         public Task SendAsync(TMessage message)
         {

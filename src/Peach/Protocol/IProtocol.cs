@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -16,7 +16,6 @@ namespace Peach.Protocol
         TMessage Parse(Buffer.IBufferReader reader);
 
         void Pack(Buffer.IBufferWriter writer, TMessage message);
-
-        void PackHeartBeat(Buffer.IBufferWriter writer);
+    
     }
 }

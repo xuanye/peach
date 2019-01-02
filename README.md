@@ -196,7 +196,7 @@ static void Main(string[] args)
 
 
 ## 扩展协议
-Hey支持使用自定义协议，扩展协议需要自行实现两个接口
+Peach支持使用自定义协议，扩展协议需要自行实现两个接口
 
 ### 1. IMessage 接口
 

@@ -59,7 +59,7 @@ namespace Peach.Buffer
             return this._buffer.ReadUnsignedInt();
         }
 
-        public int ReadableBytes => _buffer.ReadableBytes;
+        public int ReadableBytes => this._buffer.ReadableBytes;
     }
 
    

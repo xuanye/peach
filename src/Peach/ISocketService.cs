@@ -17,7 +17,7 @@ namespace Peach
         /// </summary>
         /// <param name="context">连接上下文信息</param>
         /// <param name="msg">消息内容</param>
-        void OnRecieve(ISocketContext<TMessage> context, TMessage msg);
+        void OnReceive(ISocketContext<TMessage> context, TMessage msg);
 
 
         /// <summary>

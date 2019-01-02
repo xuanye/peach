@@ -1,4 +1,4 @@
-﻿using DotNetty.Codecs;
+using DotNetty.Codecs;
 using DotNetty.Handlers.Logging;
 using DotNetty.Handlers.Timeout;
 using DotNetty.Transport.Bootstrapping;
@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Peach.EventArgs;
 
 namespace Peach.Tcp
 {
@@ -29,6 +30,7 @@ namespace Peach.Tcp
         private readonly ConcurrentDictionary<EndPoint, SocketContext<TMessage>> channels 
             = new ConcurrentDictionary<EndPoint, SocketContext<TMessage>>();
 
+       
         public TcpClient(IOptions<TcpClientOption> clientOption,IProtocol<TMessage> protocol)
             :this(clientOption.Value, protocol)
         {
@@ -54,26 +56,25 @@ namespace Peach.Tcp
         /// Init Bootstrap
         /// </summary>
         private void InitBootstrap()
-        {         
-            _bootstrap.Group(_group)
+        {
+            this._bootstrap.Group(this._group)
                 .Channel<TcpSocketChannel>();
 
-            if (_clientOption.TcpNodelay)
+            if (this._clientOption.TcpNodelay)
             {
-                _bootstrap.Option(ChannelOption.TcpNodelay, true);
+                this._bootstrap.Option(ChannelOption.TcpNodelay, true);
             }
-            if (_clientOption.SoKeepalive)
+            if (this._clientOption.SoKeepalive)
             {
-                _bootstrap.Option(ChannelOption.SoKeepalive, true);
+                this._bootstrap.Option(ChannelOption.SoKeepalive, true);
             }
-            if (_clientOption.ConnectTimeout > 0)
+            if (this._clientOption.ConnectTimeout > 0)
             {
-                _bootstrap.Option(ChannelOption.ConnectTimeout, TimeSpan.FromMilliseconds(_clientOption.ConnectTimeout));
+                this._bootstrap.Option(ChannelOption.ConnectTimeout, TimeSpan.FromMilliseconds(this._clientOption.ConnectTimeout));
             }
 
 
-
-            _bootstrap.Handler(new ActionChannelInitializer<IChannel>(c =>
+            this._bootstrap.Handler(new ActionChannelInitializer<IChannel>(c =>
             {
                 var pipeline = c.Pipeline;
                 pipeline.AddLast(new LoggingHandler("CLT-CONN"));
@@ -113,31 +114,38 @@ namespace Peach.Tcp
         #endregion
 
         #region Events
-        public virtual void OnConnected(ISocketContext<TMessage> context)
-        {
-           
-        }
-
-        public virtual void OnDisconnected(ISocketContext<TMessage> context)
-        {
-           
-        }
-
-        public virtual void OnException(ISocketContext<TMessage> context, Exception ex)
-        {
-           
-        }
-
-        public virtual void OnRecieve(ISocketContext<TMessage> context, TMessage msg)
-        {
-          
-        }
-
-        public virtual void OnIdleState(SocketContext<TMessage> context, IdleStateEvent eventState)
-        {
-
-        }
+        public event EventHandler<MessageReceivedEventArgs<TMessage>> OnReceived;
+        public event EventHandler<ErrorEventArgs<TMessage>> OnError;
+        public event EventHandler<ConnectedEventArgs<TMessage>> OnConnected;
+        public event EventHandler<DisconnectedEventArgs<TMessage>> OnDisconnected;
+        public event EventHandler<IdleStateEventArgs<TMessage>> OnIdleState;
         #endregion
+
+
+        public void RaiseConnected(ISocketContext<TMessage> context)
+        {
+            OnConnected?.Invoke(this, new ConnectedEventArgs<TMessage>(context));
+        }
+
+        public void RaiseDisconnected(ISocketContext<TMessage> context)
+        {
+            OnDisconnected?.Invoke(this, new DisconnectedEventArgs<TMessage>(context));
+        }
+
+        public void RaiseError(ISocketContext<TMessage> context, Exception ex)
+        {
+            OnError?.Invoke(this, new ErrorEventArgs<TMessage>(context, ex));
+        }
+
+        public void RaiseReceive(ISocketContext<TMessage> context, TMessage msg)
+        {
+            OnReceived?.Invoke(this, new MessageReceivedEventArgs<TMessage>(context, msg));
+        }
+
+        public void RaiseIdleState(SocketContext<TMessage> context, IdleStateEvent eventState)
+        {
+            OnIdleState?.Invoke(this, new IdleStateEventArgs<TMessage>(context));
+        }
 
         #region Methods
 
@@ -150,30 +158,36 @@ namespace Peach.Tcp
         public async Task<ISocketContext<TMessage>> ConnectAsync(EndPoint endPoint)
         {
             SocketContext<TMessage> context = null;
-            if (channels.TryGetValue(endPoint, out context)
+            if (this.channels.TryGetValue(endPoint, out context)
                 && context.Active)
             {
                 return context;
             }
             else
             {
-                var channel = await _bootstrap.ConnectAsync(endPoint);
+                var channel = await this._bootstrap.ConnectAsync(endPoint);
                 context = new SocketContext<TMessage>(channel, this._protocol);
-                channels.AddOrUpdate(endPoint, context, (x, y) => context);
+                this.channels.AddOrUpdate(endPoint, context, (x, y) => context);
                 return context;
             }
         }
 
         public async Task ShutdownGracefullyAsync(int quietPeriodMS, int shutdownTimeoutMS)
         {
-            foreach(var c in channels.Values)
+            foreach(var c in this.channels.Values)
             {
                await c.Channel.CloseAsync();
             }
-            channels.Clear();
-            await _group.ShutdownGracefullyAsync(TimeSpan.FromMilliseconds(quietPeriodMS), TimeSpan.FromMilliseconds(shutdownTimeoutMS));
+
+            this.channels.Clear();
+            await this._group.ShutdownGracefullyAsync(TimeSpan.FromMilliseconds(quietPeriodMS), TimeSpan.FromMilliseconds(shutdownTimeoutMS));
         }
-              
+
+        public void Receive(ISocketContext<TMessage> context, TMessage msg)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
     }
 }
