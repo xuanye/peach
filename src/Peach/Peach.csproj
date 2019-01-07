@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageVersion>0.1.1</PackageVersion>
   </PropertyGroup>
 
  <PropertyGroup>
@@ -19,6 +20,7 @@
     <PackageTags>socket,dotnetty,netty,protocol</PackageTags>
     <PackageReleaseNotes>A lightweight and fast socket communication library based on DotNetty</PackageReleaseNotes>
     <PackageProjectUrl>https://github.com/xuanye/Peach</PackageProjectUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/xuanye/Peach/develop/src/Peach/icon.png</PackageIconUrl>
     <PackageLicense>https://github.com/xuanye/Peach/blob/master/LICENSE</PackageLicense>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <RepositoryType>git</RepositoryType>

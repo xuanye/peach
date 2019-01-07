@@ -48,13 +48,14 @@ namespace Peach.Diagnostics
             }
         }
 
+
         public static void ClientReceive<TMessage>(this DiagnosticListener listener, TMessage ReceiveMessage) where TMessage : IMessage
         {
             if (listener.IsEnabled(DiagnosticClientReceive))
             {
                 listener.Write(DiagnosticClientReceive, new
                 {
-                    Message = ReceiveMessage                   
+                    Message = ReceiveMessage
                 });
             }
         }
