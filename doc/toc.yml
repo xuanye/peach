@@ -1,5 +1,5 @@
-- name: Articles
+- name: 快速开始
   href: articles/
-- name: Api Documentation
+- name: 类库说明
   href: api/
   homepage: api/index.md
