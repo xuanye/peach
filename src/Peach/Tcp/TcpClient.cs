@@ -85,7 +85,7 @@ namespace Peach.Tcp
                 if (meta != null)
                 {
                     // IdleStateHandler
-                    pipeline.AddLast("timeout", new IdleStateHandler(0, 0, meta.HeartbeatInterval / 1000 * 2)); //服务端双倍来处理
+                    pipeline.AddLast("idle", new IdleStateHandler(0, 0, meta.HeartbeatInterval / 1000 )); 
 
                     //消息前处理
                     pipeline.AddLast(
@@ -100,7 +100,7 @@ namespace Peach.Tcp
                 }
                 else //Simple Protocol For Test
                 {
-                    pipeline.AddLast("timeout", new IdleStateHandler(0, 0, 360)); // heartbeat each 6 second
+                    pipeline.AddLast("idle", new IdleStateHandler(0, 0, 360)); // heartbeat each 6 second
                     pipeline.AddLast("framing-enc", new LengthFieldPrepender(2));
                     pipeline.AddLast("framing-dec", new LengthFieldBasedFrameDecoder(ushort.MaxValue, 0, 2, 0, 2));
                 }
