@@ -6,14 +6,14 @@ using DotNetty.Transport.Channels;
 using DotNetty.Transport.Channels.Sockets;
 using Peach.Config;
 using Peach.Protocol;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Net;
-using System.Text;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
+using DotNetty.Handlers.Tls;
 using Peach.EventArgs;
 
 namespace Peach.Tcp
@@ -73,13 +73,30 @@ namespace Peach.Tcp
                 this._bootstrap.Option(ChannelOption.ConnectTimeout, TimeSpan.FromMilliseconds(this._clientOption.ConnectTimeout));
             }
 
-
+            X509Certificate2 cert = null;
+            string targetHost = null;
+            if (!string.IsNullOrEmpty(this._clientOption.Certificate))
+            {
+                cert = new X509Certificate2(this._clientOption.Certificate, this._clientOption.CertificatePassword);
+                targetHost = cert.GetNameInfo(X509NameType.DnsName, false);
+            }
+            
             this._bootstrap.Handler(new ActionChannelInitializer<IChannel>(c =>
             {
                 var pipeline = c.Pipeline;
+                
+                if (cert != null)
+                {
+                    pipeline.AddLast("tls",
+                        new TlsHandler(stream => 
+                            new SslStream(stream, true, 
+                                (sender, certificate, chain, errors) => true), new ClientTlsSettings(targetHost)));
+                }
+                
                 pipeline.AddLast(new LoggingHandler("CLT-CONN"));
-
-                //TODO:ssl support
+                
+                
+             
                 var meta = this._protocol.GetProtocolMeta();
 
                 if (meta != null)

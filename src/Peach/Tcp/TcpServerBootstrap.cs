@@ -10,8 +10,10 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Net;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
+using DotNetty.Handlers.Tls;
 using Peach.Config;
 using Peach.Infrastructure;
 
@@ -81,13 +83,24 @@ namespace Peach.Tcp
                     .ChildOption(ChannelOption.SoReuseaddr, true);
             }
 
+            X509Certificate2 tlsCertificate = null;
+          
+            if (!string.IsNullOrEmpty(this._options.Certificate))
+            {
+                tlsCertificate = new X509Certificate2(this._options.Certificate, this._options.CertificatePassword);
+            }
+            
             bootstrap.Handler(new LoggingHandler("LSTN"))
                 .ChildHandler(new ActionChannelInitializer<ISocketChannel>(channel =>
                 {
                     var pipeline = channel.Pipeline;
 
-                    //TODO:ssl support
 
+                    if (tlsCertificate != null)
+                    {
+                        pipeline.AddLast("tls", TlsHandler.Server(tlsCertificate));
+                    }
+                    
                     pipeline.AddLast(new LoggingHandler("CONN"));
                     var meta = this._protocol.GetProtocolMeta();
 
@@ -144,13 +157,13 @@ namespace Peach.Tcp
 
         public async Task StopAsync(CancellationToken cancellationToken)
         {
-            this._logger.LogInformation("TcpServerHost is stoping...");
+            this._logger.LogInformation("TcpServerHost is stopping...");
             await this._channel.CloseAsync();
             var quietPeriod = TimeSpan.FromMilliseconds(this._options.QuietPeriod);
             var shutdownTimeout = TimeSpan.FromMilliseconds(this._options.ShutdownTimeout);
             await this._workerGroup.ShutdownGracefullyAsync(quietPeriod, shutdownTimeout);
             await this._bossGroup.ShutdownGracefullyAsync(quietPeriod, shutdownTimeout);
-            this._logger.LogInformation("TcpServerHost is stoped!");
+            this._logger.LogInformation("TcpServerHost is stopped!");
             //NOTE:Close Client?
         }
     }

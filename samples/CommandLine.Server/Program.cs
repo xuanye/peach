@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Hosting;
 using System;
+using System.IO;
 using Peach.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -18,6 +19,13 @@ namespace CommandLine.Server
             var builder = new HostBuilder()          
             .ConfigureServices((context,services) =>
             {
+                /*
+                services.Configure<TcpHostOption>(o =>
+                {
+                    o.Certificate = Path.Combine(AppContext.BaseDirectory,"../../../../../shared/dotnetty.com.pfx");
+                    o.CertificatePassword = "password";
+                });
+                */
                 //协议
                 services.AddSingleton<IProtocol<CommandLineMessage>, CommandLineProtocol>();
                 //挂载服务逻辑
