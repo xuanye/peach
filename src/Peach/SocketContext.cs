@@ -23,43 +23,16 @@ namespace Peach
             this._protocol = protocol;         
            
         }
-        public bool Active
-        {
-            get
-            {
-                return this._channel.Active;
-            }
-        }
+        public bool Active => this._channel.Active;
 
-        public IChannel Channel
-        {
-            get
-            {
-                return this._channel;
-            }
-        }
+        public IChannel Channel => this._channel;
 
-        public string Id
-        {
-            get {
-                return this._channel.Id.AsLongText();
-            }      
-        }
+        public string Id => this._channel.Id.AsLongText();
 
-        public IPEndPoint LocalEndPoint
-        {
-            get {
-                return (IPEndPoint) this._channel.LocalAddress;
-            }
-           
-        }
+        public IPEndPoint LocalEndPoint => (IPEndPoint) this._channel.LocalAddress;
 
-        public IPEndPoint RemoteEndPoint
-        {
-            get {
-                return (IPEndPoint) this._channel.RemoteAddress;
-            }
-        }
+        public IPEndPoint RemoteEndPoint => (IPEndPoint) this._channel.RemoteAddress;
+
         public Task SendAsync(TMessage message)
         {
             if (this._channel.IsWritable)
