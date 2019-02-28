@@ -172,20 +172,36 @@ namespace Peach.Tcp
             await context.SendAsync(message);
         }
 
-        public async Task<ISocketContext<TMessage>> ConnectAsync(EndPoint endPoint)
+        public Task<ISocketContext<TMessage>> ConnectAsync(EndPoint endPoint)
         {
-            if (this.channels.TryGetValue(endPoint, out var context)
-                && context.Active)
+            return ConnectAsync(endPoint, true);
+        }
+
+        /// <summary>
+        /// 如果Cache为False ，调用者需要自行管理ISocketContext
+        /// </summary>
+        /// <param name="endPoint"></param>
+        /// <param name="cache"></param>
+        /// <returns></returns>
+        public async Task<ISocketContext<TMessage>> ConnectAsync(EndPoint endPoint,bool cache= true)
+        {
+            if (cache)
             {
-                return context;
+                if (this.channels.TryGetValue(endPoint, out var context)
+                    && context.Active)
+                {
+                    return context;
+                }
             }
-            else
-            {
-                var channel = await this._bootstrap.ConnectAsync(endPoint);
-                context = new SocketContext<TMessage>(channel, this._protocol);
-                this.channels.AddOrUpdate(endPoint, context, (x, y) => context);
-                return context;
-            }
+            
+            var channel = await this._bootstrap.ConnectAsync(endPoint);
+            var newCtx = new SocketContext<TMessage>(channel, this._protocol);
+            
+            if(cache)
+                this.channels.AddOrUpdate(endPoint, newCtx, (x, y) => newCtx);
+            
+            return newCtx;
+            
         }
 
         public async Task ShutdownGracefullyAsync(int quietPeriodMS, int shutdownTimeoutMS)
