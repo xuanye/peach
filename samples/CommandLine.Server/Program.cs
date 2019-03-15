@@ -16,8 +16,8 @@ namespace CommandLine.Server
     {
         static void Main(string[] args)
         {
-            var builder = new HostBuilder()          
-            .ConfigureServices((context,services) =>
+            var builder = new HostBuilder()
+            .ConfigureServices((context, services) =>
             {
                 /*
                 services.Configure<TcpHostOption>(o =>
@@ -30,13 +30,13 @@ namespace CommandLine.Server
                 services.AddSingleton<IProtocol<CommandLineMessage>, CommandLineProtocol>();
                 //挂载服务逻辑
                 services.AddSingleton<ISocketService<CommandLineMessage>, MyService>();
-              
+
                 //添加挂载的宿主服务
                 services.AddTcpServer<CommandLineMessage>();
             })
             .ConfigureLogging(
                 logger =>
-                {                   
+                {
                     logger.AddConsole();
                 }
             );

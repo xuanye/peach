@@ -10,7 +10,7 @@ namespace Peach
     public static class HostBuilderExtensions
     {
         public static IHostBuilder UseTcpServer<TMessage>(this IHostBuilder builder)
-            where TMessage:IMessage
+            where TMessage : IMessage
         {
             builder.ConfigureServices(services =>
             {

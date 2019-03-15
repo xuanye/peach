@@ -18,7 +18,7 @@ using Peach.EventArgs;
 
 namespace Peach.Tcp
 {
-    public class TcpClient<TMessage>:ISocketClient<TMessage> where TMessage:Messaging.IMessage
+    public class TcpClient<TMessage> : ISocketClient<TMessage> where TMessage : Messaging.IMessage
     {
 
         private readonly Bootstrap _bootstrap = new Bootstrap();
@@ -31,8 +31,8 @@ namespace Peach.Tcp
             = new ConcurrentDictionary<EndPoint, SocketContext<TMessage>>();
 
 
-        public TcpClient(IOptions<TcpClientOption> clientOption,IProtocol<TMessage> protocol)
-            :this(clientOption.Value, protocol)
+        public TcpClient(IOptions<TcpClientOption> clientOption, IProtocol<TMessage> protocol)
+            : this(clientOption.Value, protocol)
         {
 
         }
@@ -80,29 +80,29 @@ namespace Peach.Tcp
                 cert = new X509Certificate2(this._clientOption.Certificate, this._clientOption.CertificatePassword);
                 targetHost = cert.GetNameInfo(X509NameType.DnsName, false);
             }
-            
+
             this._bootstrap.Handler(new ActionChannelInitializer<IChannel>(c =>
             {
                 var pipeline = c.Pipeline;
-                
+
                 if (cert != null)
                 {
                     pipeline.AddLast("tls",
-                        new TlsHandler(stream => 
-                            new SslStream(stream, true, 
+                        new TlsHandler(stream =>
+                            new SslStream(stream, true,
                                 (sender, certificate, chain, errors) => true), new ClientTlsSettings(targetHost)));
                 }
-                
+
                 pipeline.AddLast(new LoggingHandler("CLT-CONN"));
-                
-                
-             
+
+
+
                 var meta = this._protocol.GetProtocolMeta();
 
                 if (meta != null)
                 {
                     // IdleStateHandler
-                    pipeline.AddLast("idle", new IdleStateHandler(0, 0, meta.HeartbeatInterval / 1000 )); 
+                    pipeline.AddLast("idle", new IdleStateHandler(0, 0, meta.HeartbeatInterval / 1000));
 
                     //消息前处理
                     pipeline.AddLast(
@@ -183,7 +183,7 @@ namespace Peach.Tcp
         /// <param name="endPoint"></param>
         /// <param name="cache"></param>
         /// <returns></returns>
-        public async Task<ISocketContext<TMessage>> ConnectAsync(EndPoint endPoint,bool cache= true)
+        public async Task<ISocketContext<TMessage>> ConnectAsync(EndPoint endPoint, bool cache = true)
         {
             if (cache)
             {
@@ -193,22 +193,22 @@ namespace Peach.Tcp
                     return context;
                 }
             }
-            
+
             var channel = await this._bootstrap.ConnectAsync(endPoint);
             var newCtx = new SocketContext<TMessage>(channel, this._protocol);
-            
-            if(cache)
+
+            if (cache)
                 this.channels.AddOrUpdate(endPoint, newCtx, (x, y) => newCtx);
-            
+
             return newCtx;
-            
+
         }
 
         public async Task ShutdownGracefullyAsync(int quietPeriodMS, int shutdownTimeoutMS)
         {
-            foreach(var c in this.channels.Values)
+            foreach (var c in this.channels.Values)
             {
-               await c.Channel.CloseAsync();
+                await c.Channel.CloseAsync();
             }
 
             this.channels.Clear();

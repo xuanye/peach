@@ -12,8 +12,8 @@ namespace Peach
     /// </summary>
     public interface ISocketContext<TMessage> where TMessage : Messaging.IMessage
     {
-        
-  
+
+
         /// <summary>
         /// get the connection id.
         /// </summary>

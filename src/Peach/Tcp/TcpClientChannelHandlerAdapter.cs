@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Peach.Diagnostics;
 
 namespace Peach.Tcp
-{   
+{
     public class TcpClientChannelHandlerAdapter<TMessage> : SimpleChannelInboundHandler<TMessage> where TMessage : Messaging.IMessage
     {
         private static DiagnosticListener listener = new DiagnosticListener(Diagnostics.DiagnosticListenerExtensions.DiagnosticListenerName);
@@ -16,7 +16,7 @@ namespace Peach.Tcp
         private readonly ISocketClient<TMessage> _client;
         private readonly Protocol.IProtocol<TMessage> _protocol;
 
-        public TcpClientChannelHandlerAdapter(ISocketClient<TMessage> client,Protocol.IProtocol<TMessage> protocol)
+        public TcpClientChannelHandlerAdapter(ISocketClient<TMessage> client, Protocol.IProtocol<TMessage> protocol)
         {
             this._client = client;
             this._protocol = protocol;
@@ -26,7 +26,7 @@ namespace Peach.Tcp
         {
             this._client.RaiseConnected(new SocketContext<TMessage>(context.Channel, this._protocol));
             base.ChannelActive(context);
-        }      
+        }
 
         /// <summary>
         /// 断开连接

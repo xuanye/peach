@@ -38,14 +38,14 @@ namespace CommandLine.Client
                 var echoCmd = new CommandLineMessage("echo", "hello");
                 await socketContext.SendAsync(echoCmd);
 
-               
+
                 Console.WriteLine("Press any key to exit!");
                 Console.ReadKey();
                 //关闭链接
                 await client.ShutdownGracefullyAsync(2000, 2000);
 
             }).Wait();
-         
+
         }
 
         private static void Client_OnConnected(object sender, Peach.EventArgs.ConnectedEventArgs<CommandLineMessage> e)

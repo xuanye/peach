@@ -31,7 +31,7 @@ namespace CommandLine.Server
 
         public override void OnException(ISocketContext<CommandLineMessage> context, Exception ex)
         {
-            _logger.LogError(ex,"client from {0}, occ error {1}", context.RemoteEndPoint,ex.Message);
+            _logger.LogError(ex, "client from {0}, occ error {1}", context.RemoteEndPoint, ex.Message);
             base.OnException(context, ex);
         }
 

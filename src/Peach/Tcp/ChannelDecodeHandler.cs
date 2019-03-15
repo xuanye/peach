@@ -23,7 +23,7 @@ namespace Peach.Tcp
         protected override void Decode(IChannelHandlerContext context, IByteBuffer input, List<object> output)
         {
             IBufferReader reader = ByteBufferManager.CreateBufferReader(input);
-                       
+
             var message = this._protocol.Parse(reader);
             if (message != null)
             {

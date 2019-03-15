@@ -24,9 +24,9 @@ namespace Peach.Config
         public string StartupWords { get; set; } = "TcpServerHost bind at {0} \r\n";
 
         public string AppName { get; set; } = "PeachApp";
-        
+
         public string Certificate { get; set; }
-        
+
         public string CertificatePassword { get; set; }
     }
 

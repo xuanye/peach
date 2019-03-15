@@ -9,13 +9,13 @@ namespace Peach.Protocol
     /// </summary>
     /// <typeparam name="TMessage"></typeparam>
     public interface IProtocol<TMessage>
-        where TMessage :  Messaging.IMessage
+        where TMessage : Messaging.IMessage
     {
         ProtocolMeta GetProtocolMeta();
 
         TMessage Parse(Buffer.IBufferReader reader);
 
         void Pack(Buffer.IBufferWriter writer, TMessage message);
-    
+
     }
 }

@@ -22,7 +22,7 @@ namespace Peach.UnitTests.Tcp
             var builder = new Mock<IHostBuilder>();
             builder.Setup(i => i.ConfigureServices(It.IsAny<Action<HostBuilderContext, IServiceCollection>>()))
                 .Callback<Action<HostBuilderContext, IServiceCollection>>(action => action(null, services));
-                      
+
 
             //协议
             services.AddSingleton(new Mock<IProtocol<CommandLineMessage>>().Object);
@@ -32,8 +32,8 @@ namespace Peach.UnitTests.Tcp
             services.AddTcpServer<CommandLineMessage>();
             services.AddLogging();
 
-            var host = services.BuildServiceProvider().GetRequiredService<IHostedService>();           
-         
+            var host = services.BuildServiceProvider().GetRequiredService<IHostedService>();
+
             await host.StartAsync(CancellationToken.None);
             await host.StopAsync(CancellationToken.None);
         }

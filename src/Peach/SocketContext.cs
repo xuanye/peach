@@ -17,11 +17,11 @@ namespace Peach
     {
         private readonly IChannel _channel;
         private readonly Protocol.IProtocol<TMessage> _protocol;
-        public SocketContext(IChannel channel,Protocol.IProtocol<TMessage> protocol)
+        public SocketContext(IChannel channel, Protocol.IProtocol<TMessage> protocol)
         {
             this._channel = channel;
-            this._protocol = protocol;         
-           
+            this._protocol = protocol;
+
         }
         public bool Active => this._channel.Active;
 
@@ -29,19 +29,19 @@ namespace Peach
 
         public string Id => this._channel.Id.AsLongText();
 
-        public IPEndPoint LocalEndPoint => (IPEndPoint) this._channel.LocalAddress;
+        public IPEndPoint LocalEndPoint => (IPEndPoint)this._channel.LocalAddress;
 
-        public IPEndPoint RemoteEndPoint => (IPEndPoint) this._channel.RemoteAddress;
+        public IPEndPoint RemoteEndPoint => (IPEndPoint)this._channel.RemoteAddress;
 
         public Task SendAsync(TMessage message)
         {
             if (this._channel.IsWritable)
             {
                 var buffer = GetBuffer(message);
-                if(buffer != null)
+                if (buffer != null)
                 {
                     return this._channel.WriteAndFlushAsync(buffer);
-                }                
+                }
             }
 
             return Task.CompletedTask;
@@ -49,13 +49,13 @@ namespace Peach
 
         private IByteBuffer GetBuffer(TMessage message)
         {
-            if (message == null )
+            if (message == null)
             {
                 return null;
             }
             var length = message.Length;
-          
-            if(length <= 0)
+
+            if (length <= 0)
             {
                 return null;
             }

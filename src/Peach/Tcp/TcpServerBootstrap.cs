@@ -84,12 +84,12 @@ namespace Peach.Tcp
             }
 
             X509Certificate2 tlsCertificate = null;
-          
+
             if (!string.IsNullOrEmpty(this._options.Certificate))
             {
                 tlsCertificate = new X509Certificate2(this._options.Certificate, this._options.CertificatePassword);
             }
-            
+
             bootstrap.Handler(new LoggingHandler("LSTN"))
                 .ChildHandler(new ActionChannelInitializer<ISocketChannel>(channel =>
                 {
@@ -100,7 +100,7 @@ namespace Peach.Tcp
                     {
                         pipeline.AddLast("tls", TlsHandler.Server(tlsCertificate));
                     }
-                    
+
                     pipeline.AddLast(new LoggingHandler("CONN"));
                     var meta = this._protocol.GetProtocolMeta();
 
@@ -143,7 +143,7 @@ namespace Peach.Tcp
                 //this._logger.LogInformation("TcpServerHost bind at {0}",localPoint);
                 this._channel = await bootstrap.BindAsync(localPoint, this._options.Port);
             }
-            else if(this._options.BindType == AddressBindType.Loopback)
+            else if (this._options.BindType == AddressBindType.Loopback)
             {
                 this._channel = await bootstrap.BindAsync(IPAddress.Loopback, this._options.Port);
             }
