@@ -1,0 +1,6 @@
+{
+    "csharp2plantuml.inputPath": "./src/Peach",
+    "csharp2plantuml.outputPath": "../../docs/puml",
+    "plantuml.diagramsRoot": "./docs/puml",
+    "plantuml.exportOutDir": "./docs/puml/diagram",    
+}

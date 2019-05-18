@@ -12,7 +12,7 @@
     <PackageId>Peach</PackageId>
     <Version>$(PeachPackageVersion)</Version>  
     <PackageTags>socket,dotnetty,netty,protocol</PackageTags>
-	<PackageReleaseNotes>
+	  <PackageReleaseNotes>
       $(PeachPackageNotes)
     </PackageReleaseNotes>   
     <PackageProjectUrl>https://github.com/xuanye/peach</PackageProjectUrl>
