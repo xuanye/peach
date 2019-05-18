@@ -5,8 +5,8 @@ using System.Text;
 namespace Peach.Buffer
 {
     public interface IBufferWriter
-    {     
-        
+    {
+
         IBufferWriter WriteInt(int value);
 
         IBufferWriter WriteByte(byte value);
@@ -24,6 +24,6 @@ namespace Peach.Buffer
         IBufferWriter WriteUInt(uint value);
 
         IBufferWriter WriteUShort(ushort value);
-        
+
     }
 }

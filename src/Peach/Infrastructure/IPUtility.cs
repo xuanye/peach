@@ -98,14 +98,14 @@ namespace Peach.Infrastructure
         /// <returns></returns>
         static public IPAddress GetLocalIntranetIP()
         {
-           return System.Net.NetworkInformation.NetworkInterface.GetAllNetworkInterfaces()
-            .Select(p => p.GetIPProperties())
-            .SelectMany(p => p.UnicastAddresses)
-            .Where(p => 
-                p.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork 
-                && !IPAddress.IsLoopback(p.Address)
-                && IsIntranet(p.Address)
-            ).FirstOrDefault()?.Address;
+            return System.Net.NetworkInformation.NetworkInterface.GetAllNetworkInterfaces()
+             .Select(p => p.GetIPProperties())
+             .SelectMany(p => p.UnicastAddresses)
+             .Where(p =>
+                 p.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork
+                 && !IPAddress.IsLoopback(p.Address)
+                 && IsIntranet(p.Address)
+             ).FirstOrDefault()?.Address;
         }
         /// <summary>
         /// 获取本机内网IP列表
@@ -113,15 +113,15 @@ namespace Peach.Infrastructure
         /// <returns></returns>
         static public List<IPAddress> GetLocalIntranetIPList()
         {
-            var infList =System.Net.NetworkInformation.NetworkInterface.GetAllNetworkInterfaces()
+            var infList = System.Net.NetworkInformation.NetworkInterface.GetAllNetworkInterfaces()
             .Select(p => p.GetIPProperties())
             .SelectMany(p => p.UnicastAddresses)
-            .Where(p => 
-                p.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork 
+            .Where(p =>
+                p.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork
                 && !IPAddress.IsLoopback(p.Address)
-                && IsIntranet(p.Address)            
+                && IsIntranet(p.Address)
             );
-                     
+
             var result = new List<IPAddress>();
             foreach (var child in infList)
             {

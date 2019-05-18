@@ -12,13 +12,13 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 namespace Peach
 {
     public static class ServiceCollectionExtensions
-    {       
-        public static IServiceCollection AddTcpServer<TMessage>(this IServiceCollection services) 
-            where TMessage:Messaging.IMessage
+    {
+        public static IServiceCollection AddTcpServer<TMessage>(this IServiceCollection services)
+            where TMessage : Messaging.IMessage
         {
             services.TryAddScoped<IHostedService, PeachHostedService>();
 
-            return services.AddSingleton<IServerBootstrap, Tcp.TcpServerBootstrap<TMessage>>();         
+            return services.AddSingleton<IServerBootstrap, Tcp.TcpServerBootstrap<TMessage>>();
         }
     }
 }

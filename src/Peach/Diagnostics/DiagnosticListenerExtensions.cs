@@ -19,8 +19,7 @@ namespace Peach.Diagnostics
         {
             if (listener.IsEnabled(DiagnosticServiceReceive))
             {
-                listener.Write(DiagnosticServiceReceive, new
-                {
+                listener.Write(DiagnosticServiceReceive, new {
                     Message = ReceiveMessage
                 });
             }
@@ -30,31 +29,29 @@ namespace Peach.Diagnostics
         {
             if (listener.IsEnabled(DiagnosticServiceReceiveCompleted))
             {
-                listener.Write(DiagnosticServiceReceiveCompleted, new
-                {
+                listener.Write(DiagnosticServiceReceiveCompleted, new {
                     Request = ReceiveMessage
                 });
             }
         }
 
-        public static void ServiceException(this DiagnosticListener listener,  Exception exception)
+        public static void ServiceException(this DiagnosticListener listener, Exception exception)
         {
             if (listener.IsEnabled(DiagnosticServiceException))
             {
-                listener.Write(DiagnosticServiceException, new
-                {
+                listener.Write(DiagnosticServiceException, new {
                     Exception = exception
                 });
             }
         }
 
+
         public static void ClientReceive<TMessage>(this DiagnosticListener listener, TMessage ReceiveMessage) where TMessage : IMessage
         {
             if (listener.IsEnabled(DiagnosticClientReceive))
             {
-                listener.Write(DiagnosticClientReceive, new
-                {
-                    Message = ReceiveMessage                   
+                listener.Write(DiagnosticClientReceive, new {
+                    Message = ReceiveMessage
                 });
             }
         }
@@ -62,18 +59,16 @@ namespace Peach.Diagnostics
         {
             if (listener.IsEnabled(DiagnosticClientReceive))
             {
-                listener.Write(DiagnosticClientReceive, new
-                {
+                listener.Write(DiagnosticClientReceive, new {
                     Message = ReceiveMessage
                 });
             }
         }
-        public static void ClientException(this DiagnosticListener listener,Exception exception)
+        public static void ClientException(this DiagnosticListener listener, Exception exception)
         {
             if (listener.IsEnabled(DiagnosticClientException))
             {
-                listener.Write(DiagnosticClientException, new
-                {
+                listener.Write(DiagnosticClientException, new {
                     Exception = exception
                 });
             }

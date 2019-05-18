@@ -1,9 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-  </PropertyGroup>
-
+  <Import Project="../../build/version.props" />
+  <Import Project="../../build/releasenotes.props" /> 
  <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <DefineConstants>$(DefineConstants);DOTNETCORE</DefineConstants>
@@ -13,16 +10,17 @@
     <AssemblyTitle>A lightweight and fast socket communication library based on DotNetty</AssemblyTitle>
     <AssemblyName>Peach</AssemblyName>
     <PackageId>Peach</PackageId>
-    <Version>0.1.0</Version>  
-    <AssemblyVersion>0.1.0.0</AssemblyVersion>
-    <FileVersion>0.1.0.0</FileVersion>
+    <Version>$(PeachPackageVersion)</Version>  
     <PackageTags>socket,dotnetty,netty,protocol</PackageTags>
-    <PackageReleaseNotes>A lightweight and fast socket communication library based on DotNetty</PackageReleaseNotes>
-    <PackageProjectUrl>https://github.com/xuanye/Peach</PackageProjectUrl>
-    <PackageLicense>https://github.com/xuanye/Peach/blob/master/LICENSE</PackageLicense>
+	<PackageReleaseNotes>
+      $(PeachPackageNotes)
+    </PackageReleaseNotes>   
+    <PackageProjectUrl>https://github.com/xuanye/peach</PackageProjectUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/xuanye/peach/develop/src/Peach/icon.png</PackageIconUrl>
+    <PackageLicense>https://github.com/xuanye/peach/blob/master/LICENSE</PackageLicense>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/xuanye/Peach</RepositoryUrl>
+    <RepositoryUrl>https://github.com/xuanye/peach</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
@@ -34,5 +32,4 @@
     <PackageReference Include="Microsoft.Extensions.Logging" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.DiagnosticAdapter" Version="2.2.0" />   
   </ItemGroup>
-
 </Project>

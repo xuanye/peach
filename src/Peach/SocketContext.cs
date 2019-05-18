@@ -16,81 +16,34 @@ namespace Peach
     public class SocketContext<TMessage> : ISocketContext<TMessage> where TMessage : Messaging.IMessage
     {
         private readonly IChannel _channel;
-        private readonly Protocol.IProtocol<TMessage> _protocol;
-        public SocketContext(IChannel channel,Protocol.IProtocol<TMessage> protocol)
+      
+        public SocketContext(IChannel channel)
         {
-            this._channel = channel;
-            this._protocol = protocol;         
-           
+            _channel = channel;
         }
-        public bool Active
-        {
-            get
-            {
-                return this._channel.Active;
-            }
-        }
+        public bool Active => _channel.Active;
 
-        public IChannel Channel
-        {
-            get
-            {
-                return this._channel;
-            }
-        }
+        public IChannel Channel => _channel;
 
-        public string Id
-        {
-            get {
-                return this._channel.Id.AsLongText();
-            }      
-        }
+        public string Id => this._channel.Id.AsLongText();
 
-        public IPEndPoint LocalEndPoint
-        {
-            get {
-                return (IPEndPoint) this._channel.LocalAddress;
-            }
-           
-        }
+        public IPEndPoint LocalEndPoint => (IPEndPoint)_channel.LocalAddress;
 
-        public IPEndPoint RemoteEndPoint
-        {
-            get {
-                return (IPEndPoint) this._channel.RemoteAddress;
-            }
-        }
+        public IPEndPoint RemoteEndPoint => (IPEndPoint)_channel.RemoteAddress;
+
         public Task SendAsync(TMessage message)
         {
-            if (this._channel.IsWritable)
+            if (_channel.IsWritable)
             {
-                var buffer = GetBuffer(message);
-                if(buffer != null)
+                if (message != null)
                 {
-                    return this._channel.WriteAndFlushAsync(buffer);
-                }                
+                    return _channel.WriteAndFlushAsync(message);
+                }
             }
 
             return Task.CompletedTask;
         }
 
-        private IByteBuffer GetBuffer(TMessage message)
-        {
-            if (message == null )
-            {
-                return null;
-            }
-            var length = message.Length;
-          
-            if(length <= 0)
-            {
-                return null;
-            }
-
-            var buff = this._channel.Allocator.Buffer(length);
-            IBufferWriter writer = ByteBufferManager.CreateBufferWriter(buff);
-            this._protocol.Pack(writer, message);
-            return buff;
-        }
+        
     }
 }

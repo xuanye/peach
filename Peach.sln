@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26124.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.452
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Peach", "src\Peach\Peach.csproj", "{9A445378-5A9A-46E4-B326-F8DC02E9FD5D}"
 EndProject
@@ -11,11 +11,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D8B94637-5C7
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{59597665-809B-48F5-86F9-7432546C05CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLine.Server", "samples\CommandLine.Server\CommandLine.Server.csproj", "{7E107A0B-6FF6-4A3E-AEBE-AF0DE62EF9B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommandLine.Server", "samples\CommandLine.Server\CommandLine.Server.csproj", "{7E107A0B-6FF6-4A3E-AEBE-AF0DE62EF9B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLine.Client", "samples\CommandLine.Client\CommandLine.Client.csproj", "{BB965825-5D8B-4A97-80F1-46BCAD16E6AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommandLine.Client", "samples\CommandLine.Client\CommandLine.Client.csproj", "{BB965825-5D8B-4A97-80F1-46BCAD16E6AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Peach.UnitTests", "tests\Peach.UnitTests\Peach.UnitTests.csproj", "{97D4A91E-201F-4AD7-BBBE-7DD38ED6CBCF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Peach.UnitTests", "tests\Peach.UnitTests\Peach.UnitTests.csproj", "{97D4A91E-201F-4AD7-BBBE-7DD38ED6CBCF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Peach.Mqtt", "src\Peach.Mqtt\Peach.Mqtt.csproj", "{97316C3C-2C77-491F-BD63-CF3D1778E6CD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mqtt.Server", "samples\Mqtt.Server\Mqtt.Server.csproj", "{3A1D0ED9-EA6C-4FE2-8C34-C1E0EBB87AA9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mqtt.Client", "samples\Mqtt.Client\Mqtt.Client.csproj", "{D3680403-06BA-4F72-9D74-0A3FE8D4A637}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +81,42 @@ Global
 		{97D4A91E-201F-4AD7-BBBE-7DD38ED6CBCF}.Release|x64.Build.0 = Release|Any CPU
 		{97D4A91E-201F-4AD7-BBBE-7DD38ED6CBCF}.Release|x86.ActiveCfg = Release|Any CPU
 		{97D4A91E-201F-4AD7-BBBE-7DD38ED6CBCF}.Release|x86.Build.0 = Release|Any CPU
+		{97316C3C-2C77-491F-BD63-CF3D1778E6CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97316C3C-2C77-491F-BD63-CF3D1778E6CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97316C3C-2C77-491F-BD63-CF3D1778E6CD}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{97316C3C-2C77-491F-BD63-CF3D1778E6CD}.Debug|x64.Build.0 = Debug|Any CPU
+		{97316C3C-2C77-491F-BD63-CF3D1778E6CD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{97316C3C-2C77-491F-BD63-CF3D1778E6CD}.Debug|x86.Build.0 = Debug|Any CPU
+		{97316C3C-2C77-491F-BD63-CF3D1778E6CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97316C3C-2C77-491F-BD63-CF3D1778E6CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97316C3C-2C77-491F-BD63-CF3D1778E6CD}.Release|x64.ActiveCfg = Release|Any CPU
+		{97316C3C-2C77-491F-BD63-CF3D1778E6CD}.Release|x64.Build.0 = Release|Any CPU
+		{97316C3C-2C77-491F-BD63-CF3D1778E6CD}.Release|x86.ActiveCfg = Release|Any CPU
+		{97316C3C-2C77-491F-BD63-CF3D1778E6CD}.Release|x86.Build.0 = Release|Any CPU
+		{3A1D0ED9-EA6C-4FE2-8C34-C1E0EBB87AA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A1D0ED9-EA6C-4FE2-8C34-C1E0EBB87AA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A1D0ED9-EA6C-4FE2-8C34-C1E0EBB87AA9}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3A1D0ED9-EA6C-4FE2-8C34-C1E0EBB87AA9}.Debug|x64.Build.0 = Debug|Any CPU
+		{3A1D0ED9-EA6C-4FE2-8C34-C1E0EBB87AA9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3A1D0ED9-EA6C-4FE2-8C34-C1E0EBB87AA9}.Debug|x86.Build.0 = Debug|Any CPU
+		{3A1D0ED9-EA6C-4FE2-8C34-C1E0EBB87AA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A1D0ED9-EA6C-4FE2-8C34-C1E0EBB87AA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A1D0ED9-EA6C-4FE2-8C34-C1E0EBB87AA9}.Release|x64.ActiveCfg = Release|Any CPU
+		{3A1D0ED9-EA6C-4FE2-8C34-C1E0EBB87AA9}.Release|x64.Build.0 = Release|Any CPU
+		{3A1D0ED9-EA6C-4FE2-8C34-C1E0EBB87AA9}.Release|x86.ActiveCfg = Release|Any CPU
+		{3A1D0ED9-EA6C-4FE2-8C34-C1E0EBB87AA9}.Release|x86.Build.0 = Release|Any CPU
+		{D3680403-06BA-4F72-9D74-0A3FE8D4A637}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3680403-06BA-4F72-9D74-0A3FE8D4A637}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3680403-06BA-4F72-9D74-0A3FE8D4A637}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D3680403-06BA-4F72-9D74-0A3FE8D4A637}.Debug|x64.Build.0 = Debug|Any CPU
+		{D3680403-06BA-4F72-9D74-0A3FE8D4A637}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D3680403-06BA-4F72-9D74-0A3FE8D4A637}.Debug|x86.Build.0 = Debug|Any CPU
+		{D3680403-06BA-4F72-9D74-0A3FE8D4A637}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3680403-06BA-4F72-9D74-0A3FE8D4A637}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3680403-06BA-4F72-9D74-0A3FE8D4A637}.Release|x64.ActiveCfg = Release|Any CPU
+		{D3680403-06BA-4F72-9D74-0A3FE8D4A637}.Release|x64.Build.0 = Release|Any CPU
+		{D3680403-06BA-4F72-9D74-0A3FE8D4A637}.Release|x86.ActiveCfg = Release|Any CPU
+		{D3680403-06BA-4F72-9D74-0A3FE8D4A637}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -84,6 +126,9 @@ Global
 		{7E107A0B-6FF6-4A3E-AEBE-AF0DE62EF9B2} = {78D25C92-817A-4731-B4C5-9C4CC70AAF76}
 		{BB965825-5D8B-4A97-80F1-46BCAD16E6AD} = {78D25C92-817A-4731-B4C5-9C4CC70AAF76}
 		{97D4A91E-201F-4AD7-BBBE-7DD38ED6CBCF} = {59597665-809B-48F5-86F9-7432546C05CE}
+		{97316C3C-2C77-491F-BD63-CF3D1778E6CD} = {D8B94637-5C7F-4C7E-8325-F2FCC5E98C43}
+		{3A1D0ED9-EA6C-4FE2-8C34-C1E0EBB87AA9} = {78D25C92-817A-4731-B4C5-9C4CC70AAF76}
+		{D3680403-06BA-4F72-9D74-0A3FE8D4A637} = {78D25C92-817A-4731-B4C5-9C4CC70AAF76}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F7455434-600D-4641-A642-06558190CF07}

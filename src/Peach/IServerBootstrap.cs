@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Peach
 {
-   /// <summary>
-   /// 服务的启动接口
-   /// </summary>
+    /// <summary>
+    /// 服务的启动接口
+    /// </summary>
     public interface IServerBootstrap
     {
         /// <summary>

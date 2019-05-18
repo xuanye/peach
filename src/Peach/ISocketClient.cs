@@ -19,7 +19,7 @@ namespace Peach
         /// <returns></returns>
         Task<ISocketContext<TMessage>> ConnectAsync(EndPoint endPoint);
 
-       
+
         /// <summary>
         /// Receive Message
         /// </summary>

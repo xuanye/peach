@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Peach.EventArgs
 {
-    public class MessageReceivedEventArgs<TMessage> where TMessage :IMessage
+    public class MessageReceivedEventArgs<TMessage> where TMessage : IMessage
     {
         public MessageReceivedEventArgs()
         {

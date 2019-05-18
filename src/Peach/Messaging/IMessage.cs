@@ -6,6 +6,6 @@ namespace Peach.Messaging
 {
     public interface IMessage
     {
-        int Length { get;  }
+       
     }
 }

@@ -22,18 +22,18 @@ namespace Peach.UnitTests.Tcp
             var builder = new Mock<IHostBuilder>();
             builder.Setup(i => i.ConfigureServices(It.IsAny<Action<HostBuilderContext, IServiceCollection>>()))
                 .Callback<Action<HostBuilderContext, IServiceCollection>>(action => action(null, services));
-                      
+
 
             //协议
-            services.AddSingleton(new Mock<IProtocol<CommandLineMessage>>().Object);
+            services.AddSingleton(new Mock<IChannelHandlerPipeline>().Object);
             //挂载服务逻辑
             services.AddSingleton(new Mock<ISocketService<CommandLineMessage>>().Object);
             //添加挂载的宿主服务
             services.AddTcpServer<CommandLineMessage>();
             services.AddLogging();
 
-            var host = services.BuildServiceProvider().GetRequiredService<IHostedService>();           
-         
+            var host = services.BuildServiceProvider().GetRequiredService<IHostedService>();
+
             await host.StartAsync(CancellationToken.None);
             await host.StopAsync(CancellationToken.None);
         }

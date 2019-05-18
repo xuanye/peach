@@ -5,7 +5,7 @@ using Peach.Infrastructure;
 
 namespace Peach.Hosting
 {
-    public class PeachHostedService : IHostedService 
+    public class PeachHostedService : IHostedService
     {
         private readonly IServerBootstrap _server;
         public PeachHostedService(IServerBootstrap server)
@@ -23,6 +23,6 @@ namespace Peach.Hosting
         {
             return this._server.StopAsync(cancellationToken);
         }
-       
+
     }
 }

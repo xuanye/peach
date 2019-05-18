@@ -17,11 +17,20 @@ namespace Peach.Config
 
         public int ShutdownTimeout { get; set; } = 3;
 
-        public bool UseLibuv { get; set; } = true;
+        /// <summary>
+        /// 无效的配置，使用Libuv有问题，暂时没找到原因
+        /// </summary>
+        public bool UseLibuv { get; set; } = false;
 
         public string SpecialAddress { get; set; } = "127.0.0.1";
 
-        public string StartupWords { get; set; } = "TcpServerHost bind at {bindAddress}";
+        public string StartupWords { get; set; } = "TcpServerHost bind at {0} \r\n";
+
+        public string AppName { get; set; } = "PeachApp";
+
+        public string Certificate { get; set; }
+
+        public string CertificatePassword { get; set; }
     }
 
     public enum AddressBindType

@@ -9,5 +9,10 @@ namespace Peach.Config
         public bool TcpNodelay { get; set; } = true;
         public bool SoKeepalive { get; set; } = true;
         public int ConnectTimeout { get; set; } = 0;
+
+
+        public string Certificate { get; set; }
+
+        public string CertificatePassword { get; set; }
     }
 }

@@ -18,13 +18,12 @@ namespace Peach.Messaging
         public string[] Parameters { get; }
 
         public int Length {
-            get
-            {
+            get {
                 int length = 0;
                 length = Encoding.UTF8.GetByteCount(Command);
-                if(Parameters !=null && Parameters.Length > 0)
+                if (Parameters != null && Parameters.Length > 0)
                 {
-                    for(var i=0; i < Parameters.Length; i++)
+                    for (var i = 0; i < Parameters.Length; i++)
                     {
                         length += Encoding.UTF8.GetByteCount(Parameters[i]);
                     }
@@ -41,11 +40,11 @@ namespace Peach.Messaging
         /// <param name="parameters"></param>    
         public CommandLineMessage(string cmdName, params string[] parameters)
         {
-            Preconditions.CheckNotNull(cmdName, nameof(cmdName));  
-          
+            Preconditions.CheckNotNull(cmdName, nameof(cmdName));
+
             Command = cmdName;
             Parameters = parameters;
         }
-             
-    }    
+
+    }
 }

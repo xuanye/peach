@@ -67,3 +67,7 @@ Thumbs.db
 TestResult.xml
 .vs/
 .idea/
+
+doc/_site/
+
+node_modules/

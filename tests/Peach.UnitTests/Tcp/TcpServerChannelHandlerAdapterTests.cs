@@ -15,17 +15,17 @@ namespace Peach.UnitTests.Tcp
 
         [Fact]
         public void TestExceptionCaught()
-        {            
-            var protocol = new Mock<Protocol.IProtocol<CommandLineMessage>>();
+        {
+          
             var socketService = new Mock<ISocketService<CommandLineMessage>>();
-         
-            var handler = new TcpServerChannelHandlerAdapter<CommandLineMessage>(socketService.Object, protocol.Object);
+
+            var handler = new TcpServerChannelHandlerAdapter<CommandLineMessage>(socketService.Object);
 
             var handlerCtx = new Mock<IChannelHandlerContext>();
 
             handler.ChannelReadComplete(handlerCtx.Object);
             handler.ExceptionCaught(handlerCtx.Object, new Exception("test"));
         }
-       
+
     }
 }

@@ -1,45 +1,39 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
-using System.Threading.Tasks;
 using DotNetty.Handlers.Timeout;
 using DotNetty.Transport.Channels;
-using Microsoft.Extensions.Logging;
 using Peach.Diagnostics;
 
 namespace Peach.Tcp
 {
     public class TcpServerChannelHandlerAdapter<TMessage> : SimpleChannelInboundHandler<TMessage> where TMessage : Messaging.IMessage
     {
-        private static DiagnosticListener listener = new DiagnosticListener(Diagnostics.DiagnosticListenerExtensions.DiagnosticListenerName);
-        private readonly ISocketService<TMessage> _service;
-        private readonly Protocol.IProtocol<TMessage> _protocol;
+        static DiagnosticListener listener = new DiagnosticListener(Diagnostics.DiagnosticListenerExtensions.DiagnosticListenerName);
+        readonly ISocketService<TMessage> _service;
+
         public TcpServerChannelHandlerAdapter(
-            ISocketService<TMessage> service,
-            Protocol.IProtocol<TMessage> protocol
+            ISocketService<TMessage> service
         ) : base(true)
         {
-            this._service = service;
-            this._protocol = protocol;
+            _service = service;
         }
 
         public override void ChannelActive(IChannelHandlerContext context)
         {
-            this._service.OnConnected(new SocketContext<TMessage>(context.Channel, this._protocol));
+            _service.OnConnected(new SocketContext<TMessage>(context.Channel));
             base.ChannelActive(context);
         }
 
         public override void ChannelInactive(IChannelHandlerContext context)
         {
-            this._service.OnDisconnected(new SocketContext<TMessage>(context.Channel, this._protocol));
+            _service.OnDisconnected(new SocketContext<TMessage>(context.Channel));
             base.ChannelInactive(context);
         }
 
         protected override void ChannelRead0(IChannelHandlerContext context, TMessage msg)
         {
             listener.ServiceReceive(msg);
-            this._service.OnReceive(new SocketContext<TMessage>(context.Channel, this._protocol), msg);
+            _service.OnReceive(new SocketContext<TMessage>(context.Channel), msg);
             listener.ServiceReceiveCompleted(msg);
         }
 
@@ -50,7 +44,7 @@ namespace Peach.Tcp
 
         public override void ExceptionCaught(IChannelHandlerContext context, Exception ex)
         {
-            this._service.OnException(new SocketContext<TMessage>(context.Channel, this._protocol), ex);
+            _service.OnException(new SocketContext<TMessage>(context.Channel), ex);
             listener.ServiceException(ex);
             context.CloseAsync(); //关闭连接
         }
