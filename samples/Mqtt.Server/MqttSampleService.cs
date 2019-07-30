@@ -10,28 +10,29 @@ namespace Mqtt.Server
 
     public class MqttSampleService:AbsMqttSocketService
     {
-        readonly ILogger<MqttSampleService> _logger;
+        readonly ILogger<MqttSampleService> logger;
 
 
-        public MqttSampleService(ILogger<MqttSampleService> logger)
+        public MqttSampleService(PacketProcessorManager processorManager,MqttClientSessionManager sessionManager,ILoggerFactory loggerFactory)
+            :base(processorManager,sessionManager,loggerFactory)
         {
-            _logger = logger;
+            logger = loggerFactory.CreateLogger<MqttSampleService>();
         }
         public override void OnConnected(ISocketContext<MqttMessage> context)
         {
-            _logger.LogInformation("client connected from {0}", context.RemoteEndPoint);
+            logger.LogInformation("client connected from {0}", context.RemoteEndPoint);  
             base.OnConnected(context);
         }
 
         public override void OnDisconnected(ISocketContext<MqttMessage> context)
         {
-            _logger.LogInformation("client disconnected from {0}", context.RemoteEndPoint);
+            logger.LogInformation("client disconnected from {0}", context.RemoteEndPoint);
             base.OnDisconnected(context);
         }
 
         public override void OnException(ISocketContext<MqttMessage> context, Exception ex)
         {
-            _logger.LogError(ex, "client from {0},  occ error {1}", context.RemoteEndPoint, ex.Message);
+            logger.LogError(ex, "client from {0},  occ error {1}", context.RemoteEndPoint, ex.Message);
             base.OnException(context, ex);
         }
     }

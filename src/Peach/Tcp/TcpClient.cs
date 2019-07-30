@@ -145,7 +145,7 @@ namespace Peach.Tcp
 
         public async Task SendAsync(EndPoint endPoint, TMessage message)
         {
-            var context = await ConnectAsync(endPoint);
+            ISocketContext<TMessage> context = await ConnectAsync(endPoint);
             await context.SendAsync(message);
         }
 
