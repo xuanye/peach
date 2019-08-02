@@ -1,0 +1,7 @@
+<Project>
+	<PropertyGroup>
+		<PeachPackageNotes>
+		1. 重构Netty编解码管道插入方式，便于支持更多的扩展协议
+		</PeachPackageNotes> 
+	</PropertyGroup>
+</Project>

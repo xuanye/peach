@@ -1,0 +1,6 @@
+<Project>
+	<PropertyGroup>
+		<PeachPackageVersion>0.2.1</PeachPackageVersion>	
+		<PeachMQTTPackageVersion>0.1.1</PeachMQTTPackageVersion>	
+	</PropertyGroup>
+</Project>
