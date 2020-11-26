@@ -16,24 +16,26 @@ namespace Peach.Mqtt
             services.TryAddSingleton<IMqttAuthorize,NoopMqttAuthorize>();
             
             services.AddPacketProcessor()
-                .AddSingleton<PacketProcessorManager>();
+                .AddSingleton<PacketProcessorManager>()
+            .AddSingleton<MqttClientSessionManager>();
+            
             return services;
         }
 
         static IServiceCollection AddPacketProcessor(this IServiceCollection services)
         {
-            return services.AddSingleton<ConnectPacketProcessor>()
-                .AddSingleton<DisConnectPacketProcessor>()
-                .AddSingleton<PingReqPacketProcessor>()
+            return services.AddSingleton<IPacketProcessor,ConnectPacketProcessor>()
+                .AddSingleton<IPacketProcessor, DisConnectPacketProcessor>()
+                //.AddSingleton<IPacketProcessor, PingReqPacketProcessor>()
                 
-                .AddSingleton<PublishPacketProcessor>()
-                .AddSingleton<PubAckPacketProcessor>()
-                .AddSingleton<PubCompPacketProcessor>()
-                .AddSingleton<PubRecPacketProcessor>()
-                .AddSingleton<PubRelPacketProcessor>()
+                //.AddSingleton<IPacketProcessor, PublishPacketProcessor>()
+                //.AddSingleton<IPacketProcessor, PubAckPacketProcessor>()
+                //.AddSingleton<IPacketProcessor, PubCompPacketProcessor>()
+                //.AddSingleton<IPacketProcessor, PubRecPacketProcessor>()
+                //.AddSingleton<IPacketProcessor, PubRelPacketProcessor>()
                 
-                .AddSingleton<SubscribePacketProcessor>()
-                .AddSingleton<UnSubscribePacketProcessor>()
+                //.AddSingleton<IPacketProcessor, SubscribePacketProcessor>()
+                //.AddSingleton<IPacketProcessor, UnSubscribePacketProcessor>()
                ;
         }
     }

@@ -7,31 +7,23 @@ namespace Peach.Mqtt.Processor
     using DotNetty.Codecs.Mqtt.Packets;
     using Microsoft.Extensions.Logging;
 
-    public class SubscribePacketProcessor:IPacketProcessor
-    {
-        readonly MqttSubscriptionManager subscriptionManager;
-        readonly ILogger<SubscribePacketProcessor> logger;
+    public class SubscribePacketProcessor:AbsPacketProcessor<SubscribePacket>
+    {       
+        readonly ILogger<SubscribePacketProcessor> _logger;
 
-        public SubscribePacketProcessor(MqttSubscriptionManager subscriptionManager,ILogger<SubscribePacketProcessor> logger)
+        public SubscribePacketProcessor(ILogger<SubscribePacketProcessor> logger)
         {
-            this.subscriptionManager = subscriptionManager;
-            this.logger = logger;
+
+            _logger = logger;
         }
-        public PacketType PacketType => PacketType.SUBSCRIBE;
+        public override PacketType PacketType => PacketType.SUBSCRIBE;
 
-        public async Task<MqttMessage> ProcessAsync(MqttClientSession clientSession,Packet packet)
+        protected override Task<MqttMessage> ProcessAsync(MqttClientSession clientSession, SubscribePacket packet)
         {
-            if (!(packet is SubscribePacket reqPacket))
-            {
-                this.logger.LogWarning("bad data format");
-                return null;
-            }
+            //TODO:处理订阅话题的逻辑和转发请求
+            _logger.LogDebug("recieve SubscribePacket message");
+            return Task.FromResult(MqttMessage.SUCCESS);
 
-            IMqttResult result =  await subscriptionManager.Subscribe(clientSession, reqPacket);
-            //reqPacket.Requests[0].TopicFilter
-            
-            return new MqttMessage { Code =  result.Code};
-            
         }
     }
 }

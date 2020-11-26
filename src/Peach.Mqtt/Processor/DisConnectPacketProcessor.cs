@@ -6,17 +6,21 @@ namespace Peach.Mqtt.Processor
     using System.Threading.Tasks;
     using DotNetty.Codecs.Mqtt.Packets;
 
-    public class DisConnectPacketProcessor:IPacketProcessor
+    /// <summary>
+    /// 断开连接的处理器
+    /// </summary>
+    public class DisConnectPacketProcessor:AbsPacketProcessor<DisconnectPacket>
     {
-        public PacketType PacketType => PacketType.DISCONNECT;
+        public override PacketType PacketType => PacketType.DISCONNECT;
 
-        public Task<MqttMessage> ProcessAsync(MqttClientSession clientSession,Packet packet)
+        protected override Task<MqttMessage> ProcessAsync(MqttClientSession clientSession, DisconnectPacket packet)
         {
-            MqttMessage message = new MqttMessage{ Code =  -1 };
-            
+            MqttMessage message = new MqttMessage { Code = -1 };
+
             //TODO: 处理一些断开连接需要完成的任务
-            
+
             return Task.FromResult(message);
         }
+       
     }
 }

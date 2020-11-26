@@ -10,37 +10,30 @@ namespace Peach.Mqtt.Processor
     /// <summary>
     /// 连接包处理器
     /// </summary>
-    public class ConnectPacketProcessor:IPacketProcessor
+    public class ConnectPacketProcessor:AbsPacketProcessor<ConnectPacket>
     {
-        readonly IMqttAuthorize mqttAuthorize;
-        readonly ILogger<ConnectPacketProcessor> logger;
+        readonly IMqttAuthorize _mqttAuthorize;
+        readonly ILogger<ConnectPacketProcessor> _logger;
 
         public ConnectPacketProcessor(IMqttAuthorize mqttAuthorize, ILogger<ConnectPacketProcessor> logger)
         {
-            this.mqttAuthorize = mqttAuthorize;
-            this.logger = logger;
+            _mqttAuthorize = mqttAuthorize;
+            _logger = logger;
         }
-        public PacketType PacketType => PacketType.CONNECT;
+        public override PacketType PacketType => PacketType.CONNECT;
 
-        public async Task<MqttMessage> ProcessAsync(MqttClientSession clientSession,Packet packet)
+
+        protected override async Task<MqttMessage> ProcessAsync(MqttClientSession clientSession, ConnectPacket packet)
         {
-         
-            var ack  = new ConnAckPacket();
-            var resultMsg = new MqttMessage { Packet =  ack} ;
-          
-            if (!(packet is ConnectPacket cntPacket))
-            {
-                this.logger.LogWarning("bad data format");
-                ack.ReturnCode = ConnectReturnCode.RefusedNotAuthorized;
-                return resultMsg;
-            }
-            this.logger.LogWarning("receive connect packet ,clientId={0}",cntPacket.ClientId);
-            IMqttResult validResult = await this.mqttAuthorize.Validate(cntPacket);
-            
+            var ack = new ConnAckPacket();
+            var resultMsg = new MqttMessage { Packet = ack };
+
+            _logger.LogInformation("receive connect packet ,clientId={0}", packet.ClientId);
+            IMqttResult validResult = await _mqttAuthorize.Validate(packet);
+
             ack.ReturnCode = validResult.Code == 0 ? ConnectReturnCode.Accepted : ConnectReturnCode.RefusedNotAuthorized;
 
             return resultMsg;
-
-        }
+        }      
     }
 }

@@ -7,29 +7,23 @@ namespace Peach.Mqtt.Processor
     using DotNetty.Codecs.Mqtt.Packets;
     using Microsoft.Extensions.Logging;
 
-    public class UnSubscribePacketProcessor:IPacketProcessor
+    public class UnSubscribePacketProcessor:AbsPacketProcessor<UnsubscribePacket>
     {
-        readonly MqttSubscriptionManager subscriptionManager;
-        readonly ILogger<UnSubscribePacketProcessor> logger;
+      
+        readonly ILogger<UnSubscribePacketProcessor> _logger;
 
-        public UnSubscribePacketProcessor(MqttSubscriptionManager subscriptionManager,ILogger<UnSubscribePacketProcessor> logger)
+        public UnSubscribePacketProcessor(ILogger<UnSubscribePacketProcessor> logger)
         {
-            this.subscriptionManager = subscriptionManager;
-            this.logger = logger;
+
+            _logger = logger;
         }
-        public PacketType PacketType => PacketType.UNSUBSCRIBE;
+        public override PacketType PacketType => PacketType.UNSUBSCRIBE;
 
-        public async Task<MqttMessage> ProcessAsync(MqttClientSession clientSession,Packet packet)
+        protected override Task<MqttMessage> ProcessAsync(MqttClientSession clientSession, UnsubscribePacket packet)
         {
-            if (!(packet is UnsubscribePacket reqPacket))
-            {
-                this.logger.LogWarning("bad data format");
-                return null;
-            }
-
-            IMqttResult result = await this.subscriptionManager.UnSubscribe(clientSession, reqPacket);
-            
-            return new MqttMessage { Code =  result.Code};
+            //TODO:处理取消订阅逻辑和转发请求
+            _logger.LogDebug("recieve UnsubscribePacket message");
+            return  Task.FromResult(MqttMessage.SUCCESS);
         }
     }
 }

@@ -27,6 +27,8 @@ namespace Mqtt.Server
                     //挂载服务逻辑
                     services.AddSingleton<ISocketService<MqttMessage>, MqttSampleService>();
 
+                    services.AddMqtt();
+                   
                     //添加挂载的宿主服务
                     services.AddTcpServer<MqttMessage>();
                 })

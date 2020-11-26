@@ -7,9 +7,9 @@ namespace Peach.Mqtt
 
     public class MqttSubscription
     {
-        public  string Topic { get; set; }
+        public string Topic { get; set; }
         
-        public  QualityOfService Qos { get; set; }
+        public QualityOfService Qos { get; set; }
         public MqttClientSession ClientSession { get; set; }
         
     }

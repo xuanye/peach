@@ -33,7 +33,7 @@ namespace Peach.Mqtt
                     return null;
                 }
                 
-                _sessions.TryAdd(session.ChannelId, session);
+                _sessions.TryAdd(session.ClientId, session);
                 return session;
             }
 

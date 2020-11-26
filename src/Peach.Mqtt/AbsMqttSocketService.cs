@@ -9,36 +9,36 @@ namespace Peach.Mqtt
 
     public abstract class AbsMqttSocketService:AbsSocketService<MqttMessage>
     {
-        readonly PacketProcessorManager processorManager;
-        readonly MqttClientSessionManager sessionManager;
-        readonly ILogger<AbsMqttSocketService> logger;
+        readonly PacketProcessorManager _processorManager;
+        readonly MqttClientSessionManager _sessionManager;
+        readonly ILogger<AbsMqttSocketService> _logger;
 
         public AbsMqttSocketService(PacketProcessorManager processorManager,MqttClientSessionManager sessionManager,ILoggerFactory loggerFactory)
         {
-            this.processorManager = processorManager;
-            this.sessionManager = sessionManager;
-            this.logger = loggerFactory.CreateLogger<AbsMqttSocketService>();
+            this._processorManager = processorManager;
+            this._sessionManager = sessionManager;
+            this._logger = loggerFactory.CreateLogger<AbsMqttSocketService>();
         }
         
         
         public override void OnReceive(ISocketContext<MqttMessage> context, MqttMessage msg)
         {
-            this.logger.LogTrace("receive Packet from {0}",context.RemoteEndPoint);
+            this._logger.LogTrace("receive Packet from {0}",context.RemoteEndPoint);
          
             if (msg?.Packet == null)
             {
-                this.logger.LogWarning("receive receive message from {0}, but packet is null",context.RemoteEndPoint);
+                this._logger.LogWarning("receive receive message from {0}, but packet is null",context.RemoteEndPoint);
                 return;
             }
         
             Task.Run(
                 async () =>
                 { 
-                    this.logger.LogDebug("receive Packet from {0}, type ={1}",context.RemoteEndPoint,msg.Packet.PacketType);
+                    this._logger.LogDebug("receive Packet from {0}, type ={1}",context.RemoteEndPoint,msg.Packet.PacketType);
 
-                    MqttClientSession clientSession = this.sessionManager.GetClientSession(context, msg.Packet);
+                    MqttClientSession clientSession = this._sessionManager.GetClientSession(context, msg.Packet);
                     
-                    IPacketProcessor processor =  this.processorManager.GetProcessor(msg.Packet.PacketType);
+                    IPacketProcessor processor =  this._processorManager.GetProcessor(msg.Packet.PacketType);
                     if (processor != null)
                     {
                        MqttMessage rsp = await processor.ProcessAsync(clientSession,msg.Packet);
@@ -58,7 +58,7 @@ namespace Peach.Mqtt
                     }
                     else
                     {
-                        this.logger.LogWarning("PacketType:{0} has no processor",msg.Packet.PacketType);
+                        this._logger.LogWarning("PacketType:{0} has no processor",msg.Packet.PacketType);
                     }
                     
                 }).ConfigureAwait(false);
