@@ -10,7 +10,7 @@ using Peach.Tcp;
 
 namespace CommandLine.Client
 {
-    class Program
+    static class Program
     {
         static void Main(string[] args)
         {
@@ -25,7 +25,9 @@ namespace CommandLine.Client
             TcpClient<CommandLineMessage> client = new TcpClient<CommandLineMessage>(new CommandLineChannelHandlerPipeline());
             client.OnReceived += Client_OnReceived;
             client.OnConnected += Client_OnConnected;
-
+            client.OnIdleState += Client_OnIdleState;
+            client.OnDisconnected += Client_OnDisconnected;
+            client.OnError += Client_OnError;
             Task.Run(async () =>
             {
                 //连接服务器，可以链接多个哦
@@ -49,6 +51,30 @@ namespace CommandLine.Client
 
             }).Wait();
 
+        }
+
+        private static void Client_OnError(object sender, Peach.EventArgs.ErrorEventArgs<CommandLineMessage> e)
+        {
+            Console.WriteLine("server error,{0}",e.Error.Message);
+        }
+
+        private static void Client_OnDisconnected(object sender, Peach.EventArgs.DisconnectedEventArgs<CommandLineMessage> e)
+        {
+            Console.WriteLine("server is disconnected");           
+        }
+
+        private static void Client_OnIdleState(object sender, Peach.EventArgs.IdleStateEventArgs<CommandLineMessage> e)
+        {
+
+
+           Task.Run(async () =>
+           {
+               Console.WriteLine("send idel cmd");
+               var idelCmd = new CommandLineMessage("idle");
+               await e.Context.SendAsync(idelCmd);
+           });
+            
+           
         }
 
         static void Client_OnConnected(object sender, Peach.EventArgs.ConnectedEventArgs<CommandLineMessage> e)

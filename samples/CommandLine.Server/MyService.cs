@@ -51,6 +51,10 @@ namespace CommandLine.Server
                     replyCmd = "init_reply";
 
                     break;
+                case "idle":
+                    replyMessage = "ok";
+                    replyCmd = "idle_reply";
+                    break;
                 default:
                     replyMessage = "error unknow command";
                     break;
