@@ -133,8 +133,18 @@ namespace Peach.Tcp
             else if (_options.BindType == AddressBindType.InternalAddress)
             {
                 var localPoint = IPUtility.GetLocalIntranetIP();
-                //this._logger.LogInformation("TcpServerHost bind at {0}",localPoint);
-                _channel = await bootstrap.BindAsync(localPoint, this._options.Port);
+                if(localPoint == null)
+                {
+                    this._logger.LogWarning("there isn't a valiable internal ip address,the service will be hosted at loopback address.");
+                    _channel = await bootstrap.BindAsync(IPAddress.Loopback, _options.Port);
+                }
+                else
+                {
+                    //this._logger.LogInformation("TcpServerHost bind at {0}",localPoint);
+                    _channel = await bootstrap.BindAsync(localPoint, this._options.Port);
+
+                }
+                
             }
             else if (_options.BindType == AddressBindType.Loopback)
             {
