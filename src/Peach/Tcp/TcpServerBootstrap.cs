@@ -135,7 +135,7 @@ namespace Peach.Tcp
                 var localPoint = IPUtility.GetLocalIntranetIP();
                 if(localPoint == null)
                 {
-                    this._logger.LogWarning("there isn't a valiable internal ip address,the service will be hosted at loopback address.");
+                    this._logger.LogWarning("there isn't an avaliable internal ip address,the service will be hosted at loopback address.");
                     _channel = await bootstrap.BindAsync(IPAddress.Loopback, _options.Port);
                 }
                 else
